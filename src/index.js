@@ -1,6 +1,6 @@
 const { resizeImage, getImage } = require('./lib/image');
 const url = require('url');
-const { BUCKET URL} = process.env;
+const { BUCKET, URL } = process.env;
 
 exports.handler = event =>
   new Promise((resolve, reject) => {
