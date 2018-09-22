@@ -1,6 +1,6 @@
 const { resizeImage, getImage } = require('./lib/image');
 const url = require('url');
-const { BUCKET, URL } = process.env;
+const { BUCKET URL} = process.env;
 
 exports.handler = event =>
   new Promise((resolve, reject) => {
@@ -8,8 +8,8 @@ exports.handler = event =>
     const path = event.path;
     const imageKey = url.parse(path).pathname.replace(/^\/+/g, '');
 
-    if (!BUCKET) {
-      return reject('Error: Set environment variable BUCKET');
+    if (!BUCKET || !URL) {
+      return reject('Error: Set environment variable BUCKET and URL.');
     }
 
     const size = {
