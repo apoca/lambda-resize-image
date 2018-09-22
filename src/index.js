@@ -9,7 +9,7 @@ exports.handler = event =>
     const imageKey = url.parse(path).pathname.replace(/^\/+/g, '');
 
     if (!BUCKET) {
-      return reject(`Error: Set environment variable BUCKET`);
+      return reject('Error: Set environment variable BUCKET');
     }
 
     const size = {
@@ -30,7 +30,7 @@ exports.handler = event =>
     }
 
     if (!size.width) {
-      return reject(`The parameter width is a required field to resize.`);
+      return reject('The parameter width is a required field to resize.');
     }
 
     return resizeImage(imageKey, size)
