@@ -9,7 +9,7 @@ exports.handler = event =>
     const imageKey = url.parse(path).pathname.replace(/^\/+/g, '');
 
     if (!BUCKET || !URL) {
-      return reject('Error: Set environment variable BUCKET and URL.');
+      return reject('Error: Set environment variables BUCKET and URL.');
     }
 
     const size = {
