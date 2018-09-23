@@ -1,11 +1,11 @@
 //import your handler file or main file of Lambda
-const { handler } = require('../src/index');
+const { imageprocess } = require('../../src');
 
 //Call your exports function with required params
 //In AWS lambda these are event, content, and callback
 //event and content are JSON object and callback is a function
 //In my example i'm using empty JSON
-handler(
+imageprocess(
   {
     queryStringParameters: {
       width: 180,

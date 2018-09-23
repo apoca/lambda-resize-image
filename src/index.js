@@ -2,7 +2,7 @@ const { resizeImage, getImage } = require('./lib/image');
 const url = require('url');
 const { BUCKET, URL } = process.env;
 
-exports.handler = event =>
+module.exports.imageprocess = event =>
   new Promise((resolve, reject) => {
     const queryParameters = event.queryStringParameters || {};
     const path = event.path;

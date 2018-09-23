@@ -13,12 +13,10 @@
     "eslint-config-prettier": "^3.1.0",
     "eslint-config-strongloop": "^2.1.0",
     "eslint-plugin-prettier": "^2.6.2",
-    "expect": "^23.6.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^5.2.0",
     "prettier": "^1.14.3"
   },
   "scripts": {
+    "build": "webpack",
     "dockerbuild": "export BUCKET=esolidar-proto-uploads && export URL=https://esolidar-proto-uploads.s3-eu-west-1.amazonaws.com && docker run -it -v $PWD:/var/task lambci/lambda:build-nodejs8.10 /bin/bash",
     "pretest": "eslint --ignore-path .gitignore . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
