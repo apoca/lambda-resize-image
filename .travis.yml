@@ -6,8 +6,7 @@ node_js:
   - '8'
 
 install:
-  - npm install -g eslint
-  - npm install -g codecov
+  - npm install
 
 script:
   - npm run pretest
