@@ -1,12 +1,12 @@
 const { resizeImage, getImage } = require('./lib/image');
-const url = require('url');
+const AmazonS3URI = require('./lib/amazon-s3-uri');
 const { BUCKET, URL } = process.env;
 
 module.exports.imageprocess = event =>
   new Promise((resolve, reject) => {
     const queryParameters = event.queryStringParameters || {};
-    const path = event.path;
-    const imageKey = url.parse(path).pathname.replace(/^\/+/g, '');
+    const path = AmazonS3URI(event.path);
+    const imageKey = path.key;
 
     if (!BUCKET || !URL) {
       return reject('Error: Set environment variables BUCKET and URL.');

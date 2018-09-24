@@ -6,8 +6,8 @@ module.exports = {
   // Specify the output file containing our bundled code
   output: {
     path: __dirname + '/build',
-    filename: 'index.js',
-    library: 'index',
+    filename: 'handler.js',
+    library: 'handler',
     libraryTarget: 'umd'
   },
   target: 'node',

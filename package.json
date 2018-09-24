@@ -27,14 +27,15 @@
     "url": "git+https://github.com/apoca/lambdaResizeImage.git"
   },
   "keywords": [
-    "Image",
+    "image",
     "lambda",
-    "Serverless",
+    "serverless",
     "resize",
     "aws",
     "s3",
     "bucket",
-    "ImageMagick"
+    "imagemagick",
+    "nodejs"
   ],
   "author": "Miguel Vieira <vieira@miguelvieira.com.pt>",
   "license": "MIT",

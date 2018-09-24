@@ -1,0 +1,33 @@
+# serverless.yml
+service: resizeS3Image
+
+custom: ${file(env.yml)}
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+  stage: ${self:custom.dev.STAGE}
+  timeout: 5 # optional, in seconds, default is 6
+  environment:
+    BUCKET: ${self:custom.dev.BUCKET}
+    URL: ${self:custom.dev.URL}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: '*'
+
+# you can add packaging information here
+package:
+  include:
+    - build/handler.js
+  exclude:
+    - ./**
+
+functions:
+  imageprocess:
+    handler: build/handler.imageprocess
+    environment:
+      BUCKET: ${self:custom.dev.BUCKET}
+      URL: ${self:custom.dev.URL}

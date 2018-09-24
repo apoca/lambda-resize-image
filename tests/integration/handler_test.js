@@ -1,5 +1,6 @@
 //import your handler file or main file of Lambda
 const { imageprocess } = require('../../src');
+const { BUCKET, URL } = process.env;
 
 //Call your exports function with required params
 //In AWS lambda these are event, content, and callback
@@ -8,15 +9,14 @@ const { imageprocess } = require('../../src');
 imageprocess(
   {
     queryStringParameters: {
-      width: 180,
+      width: null,
       height: null
     },
-    path:
-      'https://esolidar-proto-uploads.s3-eu-west-1.amazonaws.com/brands/580ded66-0364-40f3-8f37-5451c0a8010a.jpg'
+    path: `${URL}/brands/580ded66-0364-40f3-8f37-5451c0a8010a.jpg`
   }, //event
   {}, //content
-  function(data, ss) {
+  function(dataÅ) {
     //callback function with two arguments
-    //console.log(data, ss);
+    console.log(data);
   }
 );
