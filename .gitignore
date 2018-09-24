@@ -60,3 +60,6 @@ env.yml
 
 # next.js build output
 .next
+
+#serverless
+.serverless
