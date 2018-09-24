@@ -12,7 +12,8 @@ imageprocess(
       width: null,
       height: null
     },
-    path: `${URL}/brands/580ded66-0364-40f3-8f37-5451c0a8010a.jpg`
+    path:
+      'https://5bq62d2on2.execute-api.eu-west-1.amazonaws.com/development/resizeS3Image-development-imageprocess/brands/580ded66-0364-40f3-8f37-5451c0a8010a.jpg'
   }, //event
   {}, //content
   function(dataÅ) {
