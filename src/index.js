@@ -1,5 +1,6 @@
 const { resizeImage, getImage } = require('./lib/image');
 const url = require('url');
+const { generateS3Key } = require('./lib/utils');
 const { BUCKET, URL } = process.env;
 
 module.exports.imageprocess = event =>
@@ -7,8 +8,6 @@ module.exports.imageprocess = event =>
     const queryParameters = event.queryStringParameters || {};
     const path = event.path;
     const imageKey = url.parse(path).pathname.replace(/^\//g, '');
-
-    console.log('key: ', imageKey);
 
     if (!BUCKET || !URL) {
       return reject('Error: Set environment variables BUCKET and URL.');
@@ -29,6 +28,8 @@ module.exports.imageprocess = event =>
       return getImage(imageKey)
         .then(resolve)
         .catch(reject);
+    } else {
+      return getImage(generateS3Key(imageKey, size)).then(resolve);
     }
 
     if (!size.width) {

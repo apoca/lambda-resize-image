@@ -14,11 +14,12 @@
     "eslint-config-prettier": "^3.1.0",
     "eslint-config-strongloop": "^2.1.0",
     "eslint-plugin-prettier": "^2.6.2",
-    "prettier": "^1.14.3"
+    "prettier": "^1.14.3",
+    "serverless-offline": "^3.25.14"
   },
   "scripts": {
     "build": "webpack",
-    "dockerbuild": "export BUCKET=esolidar-proto-uploads && export URL=https://esolidar-proto-uploads.s3-eu-west-1.amazonaws.com && docker run -it -v $PWD:/var/task lambci/lambda:build-nodejs8.10 /bin/bash",
+    "dockerbuild": "docker run -it -v ${PWD}:/var/task lambci/lambda:build-nodejs8.10 /bin/bash",
     "pretest": "eslint --ignore-path .gitignore . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -37,7 +38,18 @@
     "imagemagick",
     "nodejs"
   ],
-  "author": "Miguel Vieira <vieira@miguelvieira.com.pt>",
+  "author": {
+    "name": "Miguel Vieira",
+    "email": "vieira@miguelvieira.com.pt",
+    "web": "https://github.com/apoca"
+  },
+  "contributors": [
+    {
+      "name": "Joel Calheiros",
+      "email": "joel@esolidar.com",
+      "web": "https://github.com/joelcalheiros"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/apoca/lambdaResizeImage/issues"

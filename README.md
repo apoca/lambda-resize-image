@@ -2,8 +2,9 @@
 
 [![Build Status](https://travis-ci.org/apoca/lambda-resize-image.svg?branch=master)](https://travis-ci.org/apoca/lambda-resize-image)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/174785b0f3a249e2a2f8482542e8f557)](https://app.codacy.com/app/apoca/lambda-resize-image?utm_source=github.com&utm_medium=referral&utm_content=apoca/lambda-resize-image&utm_campaign=Badge_Grade_Dashboard)
-[![codecov](https://codecov.io/gh/apoca/lambda-resize-image/branch/master/graph/badge.svg)](https://codecov.io/gh/apoca/lambda-resize-image)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c0bcf34c657a91f453e6/maintainability)](https://codeclimate.com/github/apoca/lambda-resize-image/maintainability)
 [![npm version](https://badge.fury.io/js/lambda-resize-image.svg)](https://badge.fury.io/js/lambda-resize-image)
+[![npm](https://img.shields.io/npm/l/lambda-images-resizer.svg)]()
 [![dependencies Status](https://david-dm.org/apoca/lambda-resize-image/status.svg)](https://david-dm.org/apoca/lambda-resize-image)
 [![devDependencies Status](https://david-dm.org/apoca/lambda-resize-image/dev-status.svg)](https://david-dm.org/apoca/lambda-resize-image?type=dev)
 
@@ -15,6 +16,10 @@ The combination of API Gateway and Lambda is very powerful. It allows you to bui
 
 - URL - AWS URL S3 bucket or your CDN url to the BUCKET. (required)
 - BUCKET - AWS S3 bucket. (required)
+
+## Contributing
+
+If you'd like to contribute to the project, feel free to submit a PR.
 
 ## License
 

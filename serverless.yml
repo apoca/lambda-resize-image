@@ -1,6 +1,9 @@
 # serverless.yml
 service: resizeS3Image
 
+plugins:
+  - serverless-offline
+
 custom: ${file(env.yml)}
 
 provider:
@@ -28,6 +31,16 @@ package:
 functions:
   imageprocess:
     handler: build/handler.imageprocess
+    events:
+      - http:
+          path: /{any+}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                width: true
+                height: false
     environment:
       BUCKET: ${self:custom.dev.BUCKET}
       URL: ${self:custom.dev.URL}
