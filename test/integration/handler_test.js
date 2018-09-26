@@ -1,5 +1,5 @@
 //import your handler file or main file of Lambda
-const { imageprocess } = require('../../src');
+const { imageprocess } = require('../../src/handler');
 const { URL } = process.env;
 
 //Call your exports function with required params
@@ -9,7 +9,7 @@ const { URL } = process.env;
 imageprocess(
   {
     queryStringParameters: {
-      width: 210,
+      width: 310,
       height: null
     },
     path:

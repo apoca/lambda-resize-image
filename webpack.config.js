@@ -1,21 +1,18 @@
 const path = require('path');
+const slsw = require('serverless-webpack');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   // Specify the entry point for our app.
-  entry: [path.join(__dirname, 'src/index.js')],
+  entry: slsw.lib.entries,
   // Specify the output file containing our bundled code
   output: {
-    path: __dirname + '/build',
-    filename: 'handler.js',
-    library: 'handler',
-    libraryTarget: 'umd'
+    libraryTarget: 'commonjs',
+    path: path.resolve(__dirname, '.webpack'),
+    filename: '[name].js'
   },
   target: 'node',
-  externals: [
-    //provided by Lambda runtime
-    'aws-sdk',
-    'imagick'
-  ],
+  externals: [nodeExternals()],
   module: {
     /**
      * Tell webpack how to load 'json' files.
@@ -26,6 +23,8 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
+        loader: 'babel-loader',
+        include: __dirname,
         exclude: /node_modules/
       },
       {

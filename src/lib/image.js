@@ -23,6 +23,27 @@ exports.getImage = key =>
     )
   );
 
+exports.checkKeyExists = (key, size) =>
+  new Promise((resolve, reject) =>
+    S3.headObject(
+      {
+        Bucket: BUCKET,
+        Key: generateS3Key(key, size)
+      },
+      err => {
+        if (err && err.code === 'NotFound')
+          return this.resizeImage(key, size)
+            .then(resolve)
+            .catch(reject);
+
+        resolve({
+          statusCode: 301,
+          headers: { Location: `${URL}/${generateS3Key(key, size)}` }
+        });
+      }
+    )
+  );
+
 exports.resizeImage = (key, size) =>
   new Promise((resolve, reject) =>
     S3.getObject(
@@ -48,13 +69,13 @@ exports.resizeImage = (key, size) =>
               gravity: 'Center'
             },
             err =>
-              resizeCallback(
-                err,
-                data.ContentType,
-                generateS3Key(key, size),
-                tmpImageName,
-                resolve,
-                reject
+              resolve(
+                resizeCallback(
+                  err,
+                  data.ContentType,
+                  generateS3Key(key, size),
+                  tmpImageName
+                )
               )
           );
         } else {
@@ -65,13 +86,13 @@ exports.resizeImage = (key, size) =>
               dstPath: tmpImageName
             },
             err =>
-              resizeCallback(
-                err,
-                data.ContentType,
-                generateS3Key(key, size),
-                tmpImageName,
-                resolve,
-                reject
+              resolve(
+                resizeCallback(
+                  err,
+                  data.ContentType,
+                  generateS3Key(key, size),
+                  tmpImageName
+                )
               )
           );
         }

@@ -1,6 +1,5 @@
-const { resizeImage, getImage } = require('./lib/image');
+const { resizeImage, getImage, checkKeyExists } = require('./lib/image');
 const url = require('url');
-const { generateS3Key } = require('./lib/utils');
 const { BUCKET, URL } = process.env;
 
 module.exports.imageprocess = event =>
@@ -28,8 +27,8 @@ module.exports.imageprocess = event =>
       return getImage(imageKey)
         .then(resolve)
         .catch(reject);
-    } else {
-      return getImage(generateS3Key(imageKey, size)).then(resolve);
+    } else if (size.width) {
+      return checkKeyExists(imageKey, size).then(resolve);
     }
 
     if (!size.width) {

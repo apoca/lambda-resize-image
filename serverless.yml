@@ -2,6 +2,7 @@
 service: resizeS3Image
 
 plugins:
+  - serverless-webpack
   - serverless-offline
 
 custom: ${file(env.yml)}
@@ -23,14 +24,12 @@ provider:
 
 # you can add packaging information here
 package:
-  include:
-    - build/handler.js
   exclude:
     - ./**
 
 functions:
-  imageprocess:
-    handler: build/handler.imageprocess
+  handler:
+    handler: src/handler.imageprocess
     events:
       - http:
           path: /{any+}
