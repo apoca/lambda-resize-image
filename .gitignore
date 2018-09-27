@@ -63,3 +63,6 @@ env.yml
 
 #serverless
 .serverless
+
+#serverless webpack
+.webpack
