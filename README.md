@@ -17,6 +17,8 @@
     - [Instalation](#instalation)
         - [AWS credentials](#aws-credentials)
         - [Deploy to Amazon AWS](#deploy-to-amazon-aws)
+    - [Usage (image restrictions resize)](#usage-image-restrictions-resize)
+        - [Example URL usage](#example-url-usage)
     - [Environment variables](#environment-variables)
         - [Environment variables for serverless](#environment-variables-for-serverless)
     - [Local development](#local-development)
@@ -90,6 +92,23 @@ functions:
   handler: resizeS3Image-development-handler
 Serverless: Removing old service artifacts from S3...
 ```
+
+## Usage (image restrictions resize)
+
+To restrict the dimensions, we put a `const var` in the `handle.js`:
+
+```javascript
+const ALLOWED_DIMENSIONS = {
+  width: 1800,
+  height: 1800
+};
+```
+
+You also, can change the url endpoint `https://<api_key_here>.execute-api.eu-west-1.amazonaws.com/development/{any+}` to another one more tiny and cachable (cloudfront), you can also configure in you Api Gateway (lambda service) a <b>Custom Domain Name</b>.
+
+### Example URL usage
+
+`https://api.example.com/<KEY_S3_IMAGE_HERE>?width=<WIDTH>&height=<HEIGHT>`
 
 ## Environment variables
 
