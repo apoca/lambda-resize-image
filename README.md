@@ -136,7 +136,7 @@ Note that you will need to have installed serverless globally. The last command 
 
 ## Contributing
 
-If you'd like to contribute to the project, feel free to submit a PR. See more: [ODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+If you'd like to contribute to the project, feel free to submit a PR. See more: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 
 ## License
 
