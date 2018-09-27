@@ -34,8 +34,9 @@ The combination of API Gateway and Lambda is very powerful. It allows you to bui
 ## Features
 
 - Use [Serverless Framework](https://github.com/serverless/serverless#features)
+- Use [Serverless-webpack](https://github.com/serverless-heaven/serverless-webpack)
 - Use [Serverless-offline](https://github.com/dherault/serverless-offline)
-- The image conversion endpoint by API Gateway
+- The image conversion endpoint by API Gateway or cloudfront URL.
 
 ## Instalation
 
@@ -108,7 +109,7 @@ You also, can change the url endpoint `https://<api_key_here>.execute-api.eu-wes
 
 ### Example URL usage
 
-`https://api.example.com/<KEY_S3_IMAGE_HERE>?width=<WIDTH>&height=<HEIGHT>`
+`https://api.example.com/<OPTIONAL_SERVICE_NAME>/<KEY_S3_IMAGE_HERE>?width=<WIDTH>&height=<HEIGHT>`
 
 ## Environment variables
 
