@@ -15,10 +15,12 @@
     - [Description](#description)
     - [Features](#features)
     - [Instalation](#instalation)
+        - [AWS credentials](#aws-credentials)
+        - [Deploy to Amazon AWS](#deploy-to-amazon-aws)
     - [Environment variables](#environment-variables)
-            - [Environment variables for serverless](#environment-variables-for-serverless)
+        - [Environment variables for serverless](#environment-variables-for-serverless)
     - [Local development](#local-development)
-            - [Example request](#example-request)
+        - [Example request](#example-request)
     - [Contributing](#contributing)
     - [License](#license)
     - [Author](#author)
@@ -30,17 +32,71 @@ The combination of API Gateway and Lambda is very powerful. It allows you to bui
 ## Features
 
 - Use [Serverless Framework](https://github.com/serverless/serverless#features)
-- The image conversion by event of s3 object created
+- Use [Serverless-offline](https://github.com/dherault/serverless-offline)
 - The image conversion endpoint by API Gateway
 
 ## Instalation
+
+First, add Serverless globaly:
+
+`npm install -g serverless`
+
+Second, clone repository in your local environment:
+
+```bash
+git clone https://github.com/apoca/lambda-resize-image
+cd lambda-resize-image
+npm install
+```
+
+Then, modify and set with your data the .env.example to env.yml (It's supposed that you already configured your [local variables](#environment-variables))
+
+### AWS credentials
+
+To run [local development](#local-development) you also might configure your [aws credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/installing-jssdk.html), or you can set them like showed above.
+
+### Deploy to Amazon AWS
+
+You also can check whether you have installed all well:
+
+`$ serverless`
+
+To deploy from your environment to Amazon AWS, you must:
+
+`$ serverless deploy`
+
+Then, serverless will packaging, validate and upload your stack to Amazon AWS, something like this:
+
+```bash
+Serverless: Packaging service...
+Serverless: Uploading CloudFormation file to S3...
+Serverless: Uploading artifacts...
+Serverless: Uploading service .zip file to S3 (1.52 KB)...
+Serverless: Validating template...
+Serverless: Updating Stack...
+Serverless: Checking Stack update progress...
+..............
+Serverless: Stack update finished...
+Service Information
+service: resizeS3Image
+stage: development
+region: eu-west-1
+stack: resizeS3Image-development
+api keys:
+  None
+endpoints:
+  GET - https://<api_key_here>.execute-api.eu-west-1.amazonaws.com/development/{any+}
+functions:
+  handler: resizeS3Image-development-handler
+Serverless: Removing old service artifacts from S3...
+```
 
 ## Environment variables
 
 - URL - AWS URL S3 bucket or your CDN url to the BUCKET. (required)
 - BUCKET - AWS S3 bucket. (required)
 
-  #### Environment variables for serverless
+  ### Environment variables for serverless
 
   - AWS_ACCESS_KEY_ID - AWS key
   - AWS_SECRET_ACCESS_KEY - AWS Secret
@@ -54,7 +110,7 @@ The combination of API Gateway and Lambda is very powerful. It allows you to bui
 
 Note that you will need to have installed serverless globally. The last command (4.) will spin up an [serverless-offline](https://github.com/dherault/serverless-offline) version of an API Gateway, that will simulates the real one. Once running you can see all requests on your command line.
 
-#### Example request
+### Example request
 
 `http://localhost:3000<YOUR_KEYNAME_TO_IMAGE>?width=<WIDTH>&height=<HEIGHT>`
 
