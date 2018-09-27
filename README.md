@@ -32,8 +32,8 @@ The combination of API Gateway and Lambda is very powerful. It allows you to bui
 
 ## Local development
 
-1. $ npm i
-2. $ serverless offline start
+1. `$ npm i`
+2. `$ serverless offline start`
 
 Note that you will need to have installed serverless globally. The last command (2.) will spin up an [serverless-offline](https://github.com/dherault/serverless-offline) version of an API Gateway, that will simulates the real one. Once running you can see all requests on your command line.
 
