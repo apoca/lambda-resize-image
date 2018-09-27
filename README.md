@@ -8,6 +8,21 @@
 [![devDependencies Status](https://david-dm.org/apoca/lambda-resize-image/dev-status.svg)](https://david-dm.org/apoca/lambda-resize-image?type=dev)
 [![npm](https://img.shields.io/npm/l/lambda-images-resizer.svg)]()
 
+## Contents
+
+- [lambda-resize-image](#lambda-resize-image)
+    - [Contents](#contents)
+    - [Description](#description)
+    - [Features](#features)
+    - [Instalation](#instalation)
+    - [Environment variables](#environment-variables)
+            - [Environment variables for serverless](#environment-variables-for-serverless)
+    - [Local development](#local-development)
+            - [Example request](#example-request)
+    - [Contributing](#contributing)
+    - [License](#license)
+    - [Author](#author)
+
 ## Description
 
 The combination of API Gateway and Lambda is very powerful. It allows you to build some complex functionalities without maintaining any virtual machines yourself. Lambda can be hooked up to many other (AWS) Services including S3. That's why I decided to build an AWS Lambda Function to resize images automatically with API Gateway and S3 for imagemagick tasks. When an image is called on AWS S3 bucket (via API Gateway), this package will resize it and put to S3 before redirect you to the new path of this image (aws bucket url or CDN).
@@ -32,10 +47,12 @@ The combination of API Gateway and Lambda is very powerful. It allows you to bui
 
 ## Local development
 
-1. `$ npm i`
-2. `$ serverless offline start`
+1. `$ npm i -g serverless`
+2. `$ npm i`
+3. `brew install imagemagick`
+4. `$ serverless offline start`
 
-Note that you will need to have installed serverless globally. The last command (2.) will spin up an [serverless-offline](https://github.com/dherault/serverless-offline) version of an API Gateway, that will simulates the real one. Once running you can see all requests on your command line.
+Note that you will need to have installed serverless globally. The last command (4.) will spin up an [serverless-offline](https://github.com/dherault/serverless-offline) version of an API Gateway, that will simulates the real one. Once running you can see all requests on your command line.
 
 #### Example request
 
