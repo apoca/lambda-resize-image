@@ -34,7 +34,7 @@ An AWS Lambda Function to resize images automatically with API Gateway and S3 fo
 
 ## Requirements
 
-- Node.js ( AWS Lambda supports versions of **6.10** and **8.10** )
+- Node.js - AWS Lambda supports versions of **6.10** and **8.10**
 
 ## What is it?
 
@@ -122,7 +122,7 @@ const ALLOWED_DIMENSIONS = {
 };
 ```
 
-You can also change the url endpoint `https://<api_key_here>.execute-api.eu-west-1.amazonaws.com/development/{any+}` to another one more tiny and cachable (cloudfront), you can also configure in you Api Gateway (lambda service) a <b>Custom Domain Name</b>.
+You can also change the url endpoint `https://<api_key_here>.execute-api.eu-west-1.amazonaws.com/development/{any+}` to another one more tiny and cachable (cloudfront), you can also configure in you Api Gateway (lambda service) a **Custom Domain Name**.
 
 ### Example URL usage
 
@@ -145,7 +145,7 @@ You can also change the url endpoint `https://<api_key_here>.execute-api.eu-west
 3. `brew install imagemagick`
 4. `$ serverless offline start`
 
-Note that you will need to be into the root repository. The last command (4.) will spin up an [serverless-offline](https://github.com/dherault/serverless-offline) version of an API Gateway, that will simulates the real one. Once running you can see all requests on your command line.
+Note that you will need to be into the root repository. The last command (4.) will spin up an [serverless-offline](https://github.com/dherault/serverless-offline) version of an API Gateway, that will simulate the real one. Once it is running, you can see all the requests on your command line.
 
 ### Example request
 
