@@ -1,5 +1,7 @@
 # lambda-resize-image
 
+An AWS Lambda Function to resize images automatically with API Gateway and S3 for imagemagick tasks. When an image is called on AWS Api Gateway, this package will resize it and send it to the S3.
+
 [![Build Status](https://travis-ci.org/apoca/lambda-resize-image.svg?branch=master)](https://travis-ci.org/apoca/lambda-resize-image)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/174785b0f3a249e2a2f8482542e8f557)](https://app.codacy.com/app/apoca/lambda-resize-image?utm_source=github.com&utm_medium=referral&utm_content=apoca/lambda-resize-image&utm_campaign=Badge_Grade_Dashboard)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c0bcf34c657a91f453e6/maintainability)](https://codeclimate.com/github/apoca/lambda-resize-image/maintainability)
