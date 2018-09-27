@@ -1,7 +1,5 @@
 # lambda-resize-image
 
-An AWS Lambda Function to resize images automatically with API Gateway and S3 for imagemagick tasks. When an image is called on AWS Api Gateway, this package will resize it and send it to the S3.
-
 [![Build Status](https://travis-ci.org/apoca/lambda-resize-image.svg?branch=master)](https://travis-ci.org/apoca/lambda-resize-image)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/174785b0f3a249e2a2f8482542e8f557)](https://app.codacy.com/app/apoca/lambda-resize-image?utm_source=github.com&utm_medium=referral&utm_content=apoca/lambda-resize-image&utm_campaign=Badge_Grade_Dashboard)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c0bcf34c657a91f453e6/maintainability)](https://codeclimate.com/github/apoca/lambda-resize-image/maintainability)
@@ -10,10 +8,13 @@ An AWS Lambda Function to resize images automatically with API Gateway and S3 fo
 [![devDependencies Status](https://david-dm.org/apoca/lambda-resize-image/dev-status.svg)](https://david-dm.org/apoca/lambda-resize-image?type=dev)
 [![npm](https://img.shields.io/npm/l/lambda-images-resizer.svg)]()
 
+An AWS Lambda Function to resize images automatically with API Gateway and S3 for imagemagick tasks. When an image is called on AWS Api Gateway, this package will resize it and send it to the S3.
+
 ## Contents
 
 - [lambda-resize-image](#lambda-resize-image)
     - [Contents](#contents)
+    - [Requirements](#requirements)
     - [What is it?](#what-is-it)
     - [Description](#description)
     - [Features](#features)
@@ -29,6 +30,10 @@ An AWS Lambda Function to resize images automatically with API Gateway and S3 fo
     - [Contributing](#contributing)
     - [License](#license)
     - [Author](#author)
+
+## Requirements
+
+- Node.js ( AWS Lambda supports versions of **6.10** and **8.10** )
 
 ## What is it?
 
@@ -102,6 +107,8 @@ functions:
   handler: resizeS3Image-development-handler
 Serverless: Removing old service artifacts from S3...
 ```
+
+When upload to AWS Lambda, the project will bundle only needed files - no dev dependencies will be included.
 
 ## Usage (image restrictions resize)
 
