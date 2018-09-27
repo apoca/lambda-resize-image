@@ -55,11 +55,11 @@ The combination of API Gateway and Lambda is very powerful. It allows you to bui
 
 ## Instalation
 
-First, add Serverless globaly:
+First, add Serverless globally:
 
 `npm install -g serverless`
 
-Second, clone repository in your local environment:
+Then, clone the repository into your local environment:
 
 ```bash
 git clone https://github.com/apoca/lambda-resize-image
@@ -67,15 +67,15 @@ cd lambda-resize-image
 npm install
 ```
 
-Then, modify and set with your data the .env.example to env.yml (It's supposed that you already configured your [local variables](#environment-variables))
+Modify and set the .env.example to env.yml with your data. (You are supposed to have already configured your [local variables](#environment-variables))).
 
 ### AWS credentials
 
-To run [local development](#local-development) you also might configure your [aws credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/installing-jssdk.html), or you can set them like showed below.
+To run [local development](#local-development) you also might need to configure you [aws credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/installing-jssdk.html), or you can set them to what I've shown below.
 
 ### Deploy to Amazon AWS
 
-You also can check whether you have installed all well:
+You can also check if you have everything installed in the correct way:
 
 `$ serverless`
 
@@ -83,7 +83,7 @@ To deploy from your environment to Amazon AWS, you must:
 
 `$ serverless deploy`
 
-Then, serverless will packaging, validate and upload your stack to Amazon AWS, something like this:
+Then, serverless will package, validate and upload your stack to Amazon AWS. It will probably look like this:
 
 ```bash
 Serverless: Packaging service...
@@ -122,7 +122,7 @@ const ALLOWED_DIMENSIONS = {
 };
 ```
 
-You also, can change the url endpoint `https://<api_key_here>.execute-api.eu-west-1.amazonaws.com/development/{any+}` to another one more tiny and cachable (cloudfront), you can also configure in you Api Gateway (lambda service) a <b>Custom Domain Name</b>.
+You can also change the url endpoint `https://<api_key_here>.execute-api.eu-west-1.amazonaws.com/development/{any+}` to another one more tiny and cachable (cloudfront), you can also configure in you Api Gateway (lambda service) a <b>Custom Domain Name</b>.
 
 ### Example URL usage
 
@@ -145,7 +145,7 @@ You also, can change the url endpoint `https://<api_key_here>.execute-api.eu-wes
 3. `brew install imagemagick`
 4. `$ serverless offline start`
 
-Note that you will need to have installed serverless globally. The last command (4.) will spin up an [serverless-offline](https://github.com/dherault/serverless-offline) version of an API Gateway, that will simulates the real one. Once running you can see all requests on your command line.
+Note that you will need to be into the root repository. The last command (4.) will spin up an [serverless-offline](https://github.com/dherault/serverless-offline) version of an API Gateway, that will simulates the real one. Once running you can see all requests on your command line.
 
 ### Example request
 
