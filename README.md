@@ -12,7 +12,7 @@
 
 - [lambda-resize-image](#lambda-resize-image)
     - [Contents](#contents)
-    - [What's it?](#whats-it)
+    - [What is it?](#what-is-it)
     - [Description](#description)
     - [Features](#features)
     - [Instalation](#instalation)
@@ -28,7 +28,7 @@
     - [License](#license)
     - [Author](#author)
 
-## What's it?
+## What is it?
 
 It's AWS Lambda, which is a compute service that lets you run code without provisioning or managing servers.
 
