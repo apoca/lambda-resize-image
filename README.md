@@ -34,8 +34,8 @@ The combination of API Gateway and Lambda is very powerful. It allows you to bui
 ## Features
 
 - Use [Serverless Framework](https://github.com/serverless/serverless#features)
-- Use [Serverless-webpack](https://github.com/serverless-heaven/serverless-webpack)
-- Use [Serverless-offline](https://github.com/dherault/serverless-offline)
+- Use [Serverless Webpack](https://github.com/serverless-heaven/serverless-webpack)
+- Use [Serverless Offline](https://github.com/dherault/serverless-offline)
 - The image conversion endpoint by API Gateway or cloudfront URL.
 
 ## Instalation
@@ -136,13 +136,14 @@ Note that you will need to have installed serverless globally. The last command 
 
 ## Contributing
 
-If you'd like to contribute to the project, feel free to submit a PR.
+If you'd like to contribute to the project, feel free to submit a PR. See more: [ODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 
 ## License
 
-Completely MIT Licensed. Including ALL dependencies.
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Author
 
-Miguel Vieira
-<vieira@miguelvieira.com.pt>
+- **Miguel Vieira** - _Initial work_ - [apoca](https://github.com/apoca)
+
+See also the list of [contributors](https://github.com/apoca/lambda-resize-image/contributors) who participated in this project.
