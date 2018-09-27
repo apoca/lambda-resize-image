@@ -63,7 +63,7 @@ Then, modify and set with your data the .env.example to env.yml (It's supposed t
 
 ### AWS credentials
 
-To run [local development](#local-development) you also might configure your [aws credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/installing-jssdk.html), or you can set them like showed above.
+To run [local development](#local-development) you also might configure your [aws credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/installing-jssdk.html), or you can set them like showed below.
 
 ### Deploy to Amazon AWS
 
