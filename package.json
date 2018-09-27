@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "An AWS Lambda Function to resize images automatically with API Gateway and S3 for imagemagick tasks. When an image is called on AWS S3 bucket, this package will resize it and put to S3.",
   "main": "src/handler.js",
+  "engines": {
+    "node": ">= 6.10.0"
+  },
   "dependencies": {
     "aws-sdk": "^2.322.0",
     "imagemagick": "^0.1.3"
@@ -24,7 +27,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "dockerbuild": "docker run -it -v ${PWD}:/var/task lambci/lambda:build-nodejs8.10 /bin/bash",
+    "dockerbuild": "docker run -it -v \"${PWD}\":/var/task lambci/lambda:build-nodejs8.10 /bin/bash",
     "pretest": "eslint --ignore-path .gitignore . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
