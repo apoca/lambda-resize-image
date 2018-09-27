@@ -27,6 +27,7 @@ An AWS Lambda Function to resize images automatically with API Gateway and S3 fo
         - [Environment variables for serverless](#environment-variables-for-serverless)
     - [Local development](#local-development)
         - [Example request](#example-request)
+            - [Configuration Parameters](#configuration-parameters)
     - [Contributing](#contributing)
     - [License](#license)
     - [Author](#author)
@@ -43,7 +44,7 @@ It's AWS Lambda, which is a compute service that lets you run code without provi
 
 ## Description
 
-The combination of API Gateway and Lambda is very powerful. It allows you to build some complex functionalities without maintaining any virtual machines yourself. Lambda can be hooked up to many other (AWS) Services including S3. That's why I decided to build an AWS Lambda Function to resize images automatically with API Gateway and S3 for imagemagick tasks. When an image is called on AWS S3 bucket (via API Gateway), this package will resize it and put to S3 before redirect you to the new path of this image (aws bucket url or CDN).
+The combination of API Gateway and Lambda is very powerful. It allows you to build some complex functionalities without maintaining any virtual machines yourself. Lambda can be hooked up to many other (AWS) Services including S3. That's why I decided to build an AWS Lambda Function to resize images automatically with API Gateway and S3 for imagemagick tasks. When an image is called on AWS S3 bucket (via API Gateway), this package will resize it and send it to the S3 before redirecting you to the new path of the image (aws bucket url or CDN).
 
 ## Features
 
@@ -149,6 +150,13 @@ Note that you will need to have installed serverless globally. The last command 
 ### Example request
 
 `http://localhost:3000<YOUR_KEYNAME_TO_IMAGE>?width=<WIDTH>&height=<HEIGHT>`
+
+#### Configuration Parameters
+
+| Parameter | type    | description                                        |
+| :-------: | :-----: | -------------------------------------------------- |
+| width     | Integer | Required. Will resize image via imagemagic resize. |
+| height    | Integer | Optional. Will resize image via imagemagic crop.   |
 
 ## Contributing
 
