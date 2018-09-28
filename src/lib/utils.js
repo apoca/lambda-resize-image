@@ -42,8 +42,12 @@ exports.generateS3Key = (key, size) => {
   let parts = PathReg.exec(key);
   let oldKey = parts[1] || '';
   let filename = parts[2];
-  let width = size.width || 'AUTO';
+  let width = size.width || null;
   let height = size.height || 'AUTO';
 
-  return `${oldKey}/${width}x${height}/${filename}`;
+  if (width) {
+    return `${oldKey}/${width}x${height}/${filename}`;
+  }
+
+  return `${oldKey}/${filename}`;
 };

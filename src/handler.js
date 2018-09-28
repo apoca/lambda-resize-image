@@ -14,9 +14,7 @@ module.exports.imageprocess = function(event, context, callback) {
   if (!BUCKET || !URL) {
     return callback(null, {
       statusCode: 404,
-      headers: {},
-      body: 'Error: Set environment variables BUCKET and URL.',
-      isBase64Encoded: false
+      body: 'Error: Set environment variables BUCKET and URL.'
     });
   }
 
@@ -35,26 +33,30 @@ module.exports.imageprocess = function(event, context, callback) {
   ) {
     return callback(null, {
       statusCode: 403,
-      headers: {},
-      body: 'Error: Image size not permited.',
-      isBase64Encoded: false
+      body: 'Error: Image size not permited.'
     });
   }
 
-  if (!queryParameters.width && !queryParameters.height) {
-    return getImage(imageKey).catch(err => callback(err));
+  if (!size.width && !size.height) {
+    return getImage(imageKey).catch(err =>
+      callback(null, {
+        statusCode: err.statusCode || 404,
+        body: JSON.stringify(err)
+      })
+    );
   } else if (size.width) {
-    return checkKeyExists(imageKey, size);
+    return checkKeyExists(imageKey, size).catch(err =>
+      callback(null, {
+        statusCode: err.statusCode || 404,
+        body: JSON.stringify(err)
+      })
+    );
   }
 
-  if (!size.width) {
-    return callback(null, {
-      statusCode: 403,
-      headers: {},
-      body: 'The parameter width is a required field to resize.',
-      isBase64Encoded: false
-    });
-  }
-
-  return resizeImage(imageKey, size).catch(err => callback(err));
+  return resizeImage(imageKey, size).catch(err =>
+    callback(null, {
+      statusCode: err.statusCode || 404,
+      body: JSON.stringify(err)
+    })
+  );
 };
