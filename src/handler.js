@@ -1,6 +1,5 @@
 const { resizeImage, getImage, checkKeyExists } = require('./lib/image');
 const url = require('url');
-const { BUCKET, URL } = process.env;
 const ALLOWED_DIMENSIONS = {
   width: 1800,
   height: 1800
@@ -11,7 +10,7 @@ module.exports.imageprocess = function(event, context, callback) {
   const path = event.path;
   const imageKey = url.parse(path).pathname.replace(/^\//g, '');
 
-  if (!BUCKET || !URL) {
+  if (!process.env.BUCKET || !process.env.URL) {
     return callback(null, {
       statusCode: 404,
       body: 'Error: Set environment variables BUCKET and URL.'
@@ -38,6 +37,7 @@ module.exports.imageprocess = function(event, context, callback) {
   }
 
   if (!size.width && !size.height) {
+    console.log('imageKey', imageKey);
     return getImage(imageKey).catch(err =>
       callback(null, {
         statusCode: err.statusCode || 404,

@@ -3,16 +3,18 @@ const S3 = new AWS.S3({ signatureVersion: 'v4' });
 const im = require('imagemagick');
 const os = require('os');
 const { resizeCallback, generateS3Key } = require('./utils');
-const { BUCKET, URL } = process.env;
+const BUCKET = process.env.BUCKET;
+const URL = process.env.URL;
 
 exports.getImage = key =>
   new Promise((resolve, reject) =>
     S3.getObject(
       {
-        Bucket: BUCKET,
+        Bucket: process.env.BUCKET,
         Key: key
       },
       err => {
+        console.log('BUCKET', BUCKET, 'err', err);
         if (err) return reject(err);
 
         resolve({
@@ -58,7 +60,7 @@ exports.resizeImage = (key, size) =>
           size.height
         }`;
 
-        if (!isNaN(size.width) && !isNaN(size.height)) {
+        if (!isNaN(size.height)) {
           im.crop(
             {
               width: size.width,
@@ -68,9 +70,7 @@ exports.resizeImage = (key, size) =>
               quality: 1,
               gravity: 'Center'
             },
-            err => {
-              if (err) return reject(err);
-
+            err =>
               resolve(
                 resizeCallback(
                   err,
@@ -78,19 +78,16 @@ exports.resizeImage = (key, size) =>
                   generateS3Key(key, size),
                   tmpImageName
                 )
-              );
-            }
+              )
           );
-        } else if (size.width) {
+        } else {
           im.resize(
             {
               width: size.width,
               srcData: data.Body,
               dstPath: tmpImageName
             },
-            err => {
-              if (err) return reject(err);
-
+            err =>
               resolve(
                 resizeCallback(
                   err,
@@ -98,14 +95,8 @@ exports.resizeImage = (key, size) =>
                   generateS3Key(key, size),
                   tmpImageName
                 )
-              );
-            }
+              )
           );
-        } else {
-          resolve({
-            statusCode: 301,
-            headers: { Location: `${URL}/${generateS3Key(key, size)}` }
-          });
         }
       }
     )
