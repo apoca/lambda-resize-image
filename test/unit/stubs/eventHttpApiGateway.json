@@ -1,0 +1,49 @@
+{
+  "headers": {
+    "Host": "localhost:3000",
+    "Connection": "keep-alive",
+    "Upgrade-Insecure-Requests": "1",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
+    "DNT": "1",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept-Language": "pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7,fr;q=0.6"
+  },
+  "path": "/brands/580ded66-0364-40f3-8f37-5451c0a8010a.jpg",
+  "pathParameters": {
+    "any": "brands%2F580ded66-0364-40f3-8f37-5451c0a8010a.jpg"
+  },
+  "requestContext": {
+    "accountId": "offlineContext_accountId",
+    "resourceId": "offlineContext_resourceId",
+    "apiId": "offlineContext_apiId",
+    "stage": "development",
+    "requestId": "offlineContext_requestId_44270147994974307",
+    "identity": {
+      "cognitoIdentityPoolId": "offlineContext_cognitoIdentityPoolId",
+      "accountId": "offlineContext_accountId",
+      "cognitoIdentityId": "offlineContext_cognitoIdentityId",
+      "caller": "offlineContext_caller",
+      "apiKey": "offlineContext_apiKey",
+      "sourceIp": "127.0.0.1",
+      "cognitoAuthenticationType": "offlineContext_cognitoAuthenticationType",
+      "cognitoAuthenticationProvider": "offlineContext_cognitoAuthenticationProvider",
+      "userArn": "offlineContext_userArn",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
+      "user": "offlineContext_user"
+    },
+    "authorizer": {
+      "principalId": "offlineContext_authorizer_principalId",
+      "claims": "undefined"
+    },
+    "protocol": "HTTP/1.1",
+    "resourcePath": "/{any*}",
+    "httpMethod": "GET"
+  },
+  "resource": "/{any*}",
+  "httpMethod": "GET",
+  "queryStringParameters": null,
+  "stageVariables": null,
+  "body": null,
+  "isOffline": true
+}

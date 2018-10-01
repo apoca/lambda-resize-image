@@ -13,23 +13,42 @@
   "devDependencies": {
     "@babel/core": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
+    "aws-sdk-mock": "^4.1.0",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.0.2",
+    "chai": "^4.2.0",
     "codecov": "^3.1.0",
     "eslint": "^5.6.0",
     "eslint-config-prettier": "^3.1.0",
     "eslint-config-strongloop": "^2.1.0",
     "eslint-plugin-prettier": "^2.6.2",
+    "jest": "^23.6.0",
+    "lambda-tester": "^3.5.0",
     "prettier": "^1.14.3",
     "serverless-offline": "^3.25.14",
     "serverless-webpack": "^5.2.0",
+    "util": "^0.11.0",
     "webpack": "^4.2.0",
     "webpack-node-externals": "^1.7.2"
   },
   "scripts": {
     "build": "webpack",
+    "start": "serverless offline start",
     "dockerbuild": "docker run -it -v \"${PWD}\":/var/task lambci/lambda:build-nodejs8.10 /bin/bash",
     "pretest": "eslint --ignore-path .gitignore . --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "verbose": true,
+    "testMatch": [
+      "**/test/unit/**/*.js?(x)",
+      "**/?(*.)+(spec|test).js?(x)"
+    ],
+    "setupFiles": [
+      "./test/config/globals.js"
+    ]
   },
   "repository": {
     "type": "git",
