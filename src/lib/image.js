@@ -72,12 +72,7 @@ exports.resizeImage = (key, size) =>
               if (err) return reject(err);
 
               resolve(
-                resizeCallback(
-                  err,
-                  data.ContentType,
-                  generateS3Key(key, size),
-                  tmpImageName
-                )
+                resizeCallback(err, generateS3Key(key, size), tmpImageName)
               );
             }
           );
@@ -92,12 +87,7 @@ exports.resizeImage = (key, size) =>
               if (err) return reject(err);
 
               resolve(
-                resizeCallback(
-                  err,
-                  data.ContentType,
-                  generateS3Key(key, size),
-                  tmpImageName
-                )
+                resizeCallback(err, generateS3Key(key, size), tmpImageName)
               );
             }
           );

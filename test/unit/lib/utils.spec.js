@@ -1,13 +1,20 @@
 import AWSMock from 'aws-sdk-mock';
-import { promisify } from 'util';
+import fs from 'fs';
+import path from 'path';
 import { generateS3Key, resizeCallback } from '../../../src/lib/utils';
 
-const resize = promisify(resizeCallback);
+describe('Test resizeCallback error', () => {
+  const newKey = 'new_default_640x480.jpg';
+  const newPathKey = `${process.env.URL}/${newKey}`;
+  const defaultImage = path.resolve(
+    __dirname + '../../../images/default_640x480.jpg'
+  );
+  const tmpImageName = `${__dirname}/images/${newKey}`;
 
-describe('Test generate S3 key', () => {
   beforeAll(() => {
-    AWSMock.mock('S3', 'putObject', function(params, callback) {
-      console.log('MOCK WORKS!');
+    fs.createReadStream(defaultImage).pipe(fs.createWriteStream(tmpImageName));
+    AWSMock.mock('S3', 'upload', (params, callback) => {
+      callback(true, null);
     });
   });
 
@@ -20,43 +27,72 @@ describe('Test generate S3 key', () => {
     AWSMock.restore('S3');
   });
 
-  test('With a error from resize, resize callback must expect an error', () => {
+  test('Sending a error param, must return an error', () => {
     expect.assertions(1);
-    process.env.BUCKET = 'my-bucket-here';
-    process.env.URL = 'localhost:3000';
-
     const error = {
-      message: 'Something went wrong!'
+      error: 'Something went Wrong!'
     };
-    const contentType = '';
-    const newKey = '';
-    const tmpImageName = '';
 
-    return resizeCallback(error, contentType, newKey, tmpImageName).catch(e => {
-      expect(e).toEqual({
-        message: 'Something went wrong!'
-      });
+    return expect(
+      resizeCallback(error, newPathKey, newPathKey)
+    ).rejects.toEqual({
+      error: 'Something went Wrong!'
     });
   });
 
-  test('Sending a successfull image to AWS S3', () => {
-    process.env.BUCKET = 'esolidar-proto-uploads';
-    process.env.URL = 'localhost:3000';
+  test('Getting am error sending image to S3', () => {
+    expect.assertions(1);
     const error = null;
-    const contentType = 'image/jpg';
-    const newKey = 'new_default_640x480.jpg';
-    const tmpImageName = __dirname + '/images/default_640x480.jpg';
 
-    return resizeCallback(error, contentType, newKey, tmpImageName).then(
-      data => {
-        expect(data).toMatchObject({
-          statusCode: 301,
-          headers: { Location: `${process.env.URL}/${newKey}` }
-        });
-      }
-    );
+    return expect(
+      resizeCallback(error, newPathKey, tmpImageName)
+    ).rejects.toBeTruthy();
+  });
+});
+
+describe('Test resizeCallback success', () => {
+  const newKey = 'new_default_640x480.jpg';
+  const newPathKey = `${process.env.URL}/${newKey}`;
+  const defaultImage = path.resolve(
+    __dirname + '../../../images/default_640x480.jpg'
+  );
+  const tmpImageName = `${__dirname}/images/${newKey}`;
+
+  beforeAll(() => {
+    fs.createReadStream(defaultImage).pipe(fs.createWriteStream(tmpImageName));
+    AWSMock.mock('S3', 'upload', (params, callback) => {
+      const data = {
+        Location: newPathKey
+      };
+
+      callback(null, data);
+    });
   });
 
+  afterEach(() => {
+    delete process.env.BUCKET;
+    delete process.env.URL;
+  });
+
+  afterAll(() => {
+    AWSMock.restore('S3');
+  });
+
+  test('Sending a successfull image to AWS S3', () => {
+    process.env.BUCKET = 'my-bucket-here';
+    process.env.URL = 'localhost:3000';
+    const error = null;
+
+    return resizeCallback(error, newPathKey, tmpImageName).then(data => {
+      expect(data).toMatchObject({
+        statusCode: 301,
+        headers: { Location: newPathKey }
+      });
+    });
+  });
+});
+
+describe('Test generateS3Key', () => {
   test('Require both sizes width and height', () => {
     const size = {
       width: 100,
@@ -79,7 +115,16 @@ describe('Test generate S3 key', () => {
     );
   });
 
-  test('Must return only old key', () => {
+  test('Without basename, must return a key only', () => {
+    const size = {
+      width: null,
+      height: null
+    };
+
+    expect(generateS3Key('name_here.jpg', size)).toEqual('name_here.jpg');
+  });
+
+  test('Both sizes empty', () => {
     const size = {
       width: null,
       height: null
