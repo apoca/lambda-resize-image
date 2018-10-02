@@ -10,7 +10,7 @@ install:
 
 script:
   - npm run pretest
-  - codecov
+  - npm run test -- --coverage
 
 cache:
   directories:
