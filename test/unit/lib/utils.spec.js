@@ -9,10 +9,13 @@ describe('Test resizeCallback error', () => {
   const defaultImage = path.resolve(
     __dirname + '../../../images/default_640x480.jpg'
   );
-  const tmpImageName = Buffer.from(`${__dirname}/images/${newKey}`, 'base64');
+  const tmpPathImageName = `${__dirname}/images/${newKey}`;
+  const tmpImageName = Buffer.from(tmpPathImageName);
 
   beforeAll(() => {
-    fs.createReadStream(defaultImage).pipe(fs.createWriteStream(tmpImageName));
+    fs.createReadStream(defaultImage).pipe(
+      fs.createWriteStream(tmpPathImageName)
+    );
     AWSMock.mock('S3', 'putObject', (params, callback) => {
       callback(true, null);
     });
@@ -53,10 +56,13 @@ describe('Test resizeCallback success', () => {
   const defaultImage = path.resolve(
     __dirname + '../../../images/default_640x480.jpg'
   );
-  const tmpImageName = Buffer.from(`${__dirname}/images/${newKey}`, 'base64');
+  const tmpPathImageName = `${__dirname}/images/${newKey}`;
+  const tmpImageName = Buffer.from(tmpPathImageName);
 
   beforeAll(() => {
-    fs.createReadStream(defaultImage).pipe(fs.createWriteStream(tmpImageName));
+    fs.createReadStream(defaultImage).pipe(
+      fs.createWriteStream(tmpPathImageName)
+    );
     AWSMock.mock('S3', 'putObject', (params, callback) => {
       const data = {
         Location: newPathKey

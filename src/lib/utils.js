@@ -15,7 +15,7 @@ export function resizeCallback(error, contentType, newKey, tmpImageName) {
           ContentType: contentType,
           Key: newKey
         },
-        (err, data) => {
+        err => {
           if (err) return reject(err);
 
           unlink(tmpImageName);
