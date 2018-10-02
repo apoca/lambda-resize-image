@@ -1,14 +1,14 @@
-const { resizeImage, getImage, checkKeyExists } = require('./lib/image');
-const url = require('url');
+import { resizeImage, getImage, checkKeyExists } from './lib/image';
+import { parse } from 'url';
 const ALLOWED_DIMENSIONS = {
   width: 1800,
   height: 1800
 };
 
-module.exports.imageprocess = function(event, context, callback) {
+export function imageprocess(event, context, callback) {
   const queryParameters = event.queryStringParameters || {};
   const path = event.path;
-  const imageKey = url.parse(path).pathname.replace(/^\//g, '');
+  const imageKey = parse(path).pathname.replace(/^\//g, '');
 
   if (!process.env.BUCKET || !process.env.URL) {
     return callback(null, {
@@ -37,7 +37,6 @@ module.exports.imageprocess = function(event, context, callback) {
   }
 
   if (!size.width && !size.height) {
-    console.log('imageKey', imageKey);
     return getImage(imageKey).catch(err =>
       callback(null, {
         statusCode: err.statusCode || 404,
@@ -59,4 +58,4 @@ module.exports.imageprocess = function(event, context, callback) {
       body: JSON.stringify(err)
     })
   );
-};
+}

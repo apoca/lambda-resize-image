@@ -1,5 +1,4 @@
 const AWS = require('aws-sdk');
-//const S3 = new AWS.S3({ signatureVersion: 'v4' });
 const im = require('imagemagick');
 const os = require('os');
 const { resizeCallback, generateS3Key } = require('./utils');
@@ -14,6 +13,7 @@ exports.getImage = key =>
       },
       err => {
         if (err) return reject(err);
+
         resolve({
           statusCode: 301,
           headers: { Location: `${process.env.URL}/${key}` }
@@ -60,8 +60,8 @@ exports.resizeImage = (key, size) =>
         const tmpImageName = `${os.tmpDir}/resized.${process.env.BUCKET}.${
           size.width
         }.${size.height}`;
-        console.log('tmpImageName', tmpImageName);
-        if (!isNaN(size.height)) {
+
+        if (!isNaN(size.width) && !isNaN(size.height)) {
           im.crop(
             {
               width: size.width,
@@ -71,7 +71,9 @@ exports.resizeImage = (key, size) =>
               quality: 1,
               gravity: 'Center'
             },
-            err =>
+            err => {
+              if (err) return reject(err);
+
               resolve(
                 resizeCallback(
                   err,
@@ -79,16 +81,19 @@ exports.resizeImage = (key, size) =>
                   generateS3Key(key, size),
                   tmpImageName
                 )
-              )
+              );
+            }
           );
-        } else {
+        } else if (size.width) {
           im.resize(
             {
               width: size.width,
               srcData: data.Body,
               dstPath: tmpImageName
             },
-            err =>
+            err => {
+              if (err) return reject(err);
+
               resolve(
                 resizeCallback(
                   err,
@@ -96,8 +101,16 @@ exports.resizeImage = (key, size) =>
                   generateS3Key(key, size),
                   tmpImageName
                 )
-              )
+              );
+            }
           );
+        } else {
+          resolve({
+            statusCode: 301,
+            headers: {
+              Location: `${process.env.URL}/${generateS3Key(key, size)}`
+            }
+          });
         }
       }
     );
