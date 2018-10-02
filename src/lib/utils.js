@@ -31,9 +31,11 @@ export function resizeCallback(error, newKey, tmpImageName) {
 
 export function generateS3Key(key, size) {
   let parts = PathReg.exec(key);
+
   if (!parts) {
     return key;
   }
+
   let oldKey = parts[1];
   let filename = parts[2];
   let width = size.width || null;
