@@ -1,35 +1,33 @@
 const AWS = require('aws-sdk');
-const S3 = new AWS.S3({ signatureVersion: 'v4' });
+//const S3 = new AWS.S3({ signatureVersion: 'v4' });
 const im = require('imagemagick');
 const os = require('os');
 const { resizeCallback, generateS3Key } = require('./utils');
-const BUCKET = process.env.BUCKET;
-const URL = process.env.URL;
 
 exports.getImage = key =>
-  new Promise((resolve, reject) =>
+  new Promise((resolve, reject) => {
+    const S3 = new AWS.S3({ signatureVersion: 'v4' });
     S3.getObject(
       {
         Bucket: process.env.BUCKET,
         Key: key
       },
       err => {
-        console.log('BUCKET', BUCKET, 'err', err);
         if (err) return reject(err);
-
         resolve({
           statusCode: 301,
-          headers: { Location: `${URL}/${key}` }
+          headers: { Location: `${process.env.URL}/${key}` }
         });
       }
-    )
-  );
+    );
+  });
 
 exports.checkKeyExists = (key, size) =>
-  new Promise((resolve, reject) =>
+  new Promise((resolve, reject) => {
+    const S3 = new AWS.S3({ signatureVersion: 'v4' });
     S3.headObject(
       {
-        Bucket: BUCKET,
+        Bucket: process.env.BUCKET,
         Key: generateS3Key(key, size)
       },
       err => {
@@ -40,26 +38,29 @@ exports.checkKeyExists = (key, size) =>
 
         resolve({
           statusCode: 301,
-          headers: { Location: `${URL}/${generateS3Key(key, size)}` }
+          headers: {
+            Location: `${process.env.URL}/${generateS3Key(key, size)}`
+          }
         });
       }
-    )
-  );
+    );
+  });
 
 exports.resizeImage = (key, size) =>
-  new Promise((resolve, reject) =>
+  new Promise((resolve, reject) => {
+    const S3 = new AWS.S3({ signatureVersion: 'v4' });
     S3.getObject(
       {
-        Bucket: BUCKET,
+        Bucket: process.env.BUCKET,
         Key: key
       },
       (err, data) => {
         if (err) return reject(err);
 
-        const tmpImageName = `${os.tmpDir}/resized.${BUCKET}.${size.width}.${
-          size.height
-        }`;
-
+        const tmpImageName = `${os.tmpDir}/resized.${process.env.BUCKET}.${
+          size.width
+        }.${size.height}`;
+        console.log('tmpImageName', tmpImageName);
         if (!isNaN(size.height)) {
           im.crop(
             {
@@ -99,5 +100,5 @@ exports.resizeImage = (key, size) =>
           );
         }
       }
-    )
-  );
+    );
+  });
