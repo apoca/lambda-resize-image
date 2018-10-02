@@ -4,7 +4,7 @@
   "description": "An AWS Lambda Function to resize images automatically with API Gateway and S3 for imagemagick tasks. When an image is called on AWS Api Gateway, this package will resize it and send it to the S3.",
   "main": "src/handler.js",
   "engines": {
-    "node": ">= 6.10.0"
+    "node": ">= 8.10.0"
   },
   "dependencies": {
     "aws-sdk": "^2.322.0",
