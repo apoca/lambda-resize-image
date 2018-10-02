@@ -9,18 +9,13 @@ describe('Test resizeCallback error', () => {
   const defaultImage = path.resolve(
     __dirname + '../../../images/default_640x480.jpg'
   );
-  const tmpImageName = `${__dirname}/images/${newKey}`;
+  const tmpImageName = Buffer.from(`${__dirname}/images/${newKey}`, 'base64');
 
   beforeAll(() => {
     fs.createReadStream(defaultImage).pipe(fs.createWriteStream(tmpImageName));
-    AWSMock.mock('S3', 'upload', (params, callback) => {
+    AWSMock.mock('S3', 'putObject', (params, callback) => {
       callback(true, null);
     });
-  });
-
-  afterEach(() => {
-    delete process.env.BUCKET;
-    delete process.env.URL;
   });
 
   afterAll(() => {
@@ -34,7 +29,7 @@ describe('Test resizeCallback error', () => {
     };
 
     return expect(
-      resizeCallback(error, newPathKey, newPathKey)
+      resizeCallback(error, 'image/jpg', newPathKey, newPathKey)
     ).rejects.toEqual({
       error: 'Something went Wrong!'
     });
@@ -45,22 +40,24 @@ describe('Test resizeCallback error', () => {
     const error = null;
 
     return expect(
-      resizeCallback(error, newPathKey, tmpImageName)
+      resizeCallback(error, 'image/jpg', newPathKey, tmpImageName)
     ).rejects.toBeTruthy();
   });
 });
 
 describe('Test resizeCallback success', () => {
+  process.env.URL = 'localhost:3000';
+  process.env.BUCKET = 'my-bucket-here';
   const newKey = 'new_default_640x480.jpg';
   const newPathKey = `${process.env.URL}/${newKey}`;
   const defaultImage = path.resolve(
     __dirname + '../../../images/default_640x480.jpg'
   );
-  const tmpImageName = `${__dirname}/images/${newKey}`;
+  const tmpImageName = Buffer.from(`${__dirname}/images/${newKey}`, 'base64');
 
   beforeAll(() => {
     fs.createReadStream(defaultImage).pipe(fs.createWriteStream(tmpImageName));
-    AWSMock.mock('S3', 'upload', (params, callback) => {
+    AWSMock.mock('S3', 'putObject', (params, callback) => {
       const data = {
         Location: newPathKey
       };
@@ -69,26 +66,21 @@ describe('Test resizeCallback success', () => {
     });
   });
 
-  afterEach(() => {
-    delete process.env.BUCKET;
-    delete process.env.URL;
-  });
-
   afterAll(() => {
     AWSMock.restore('S3');
   });
 
   test('Sending a successfull image to AWS S3', () => {
-    process.env.BUCKET = 'my-bucket-here';
-    process.env.URL = 'localhost:3000';
     const error = null;
 
-    return resizeCallback(error, newPathKey, tmpImageName).then(data => {
-      expect(data).toMatchObject({
-        statusCode: 301,
-        headers: { Location: newPathKey }
-      });
-    });
+    return resizeCallback(error, 'image/jpg', newKey, tmpImageName).then(
+      data => {
+        expect(data).toMatchObject({
+          statusCode: 301,
+          headers: { Location: newPathKey }
+        });
+      }
+    );
   });
 });
 

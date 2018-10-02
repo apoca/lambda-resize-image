@@ -1,0 +1,51 @@
+{  
+    "headers":{  
+       "Host":"localhost:3002",
+       "Connection":"keep-alive",
+       "Upgrade-Insecure-Requests":"1",
+       "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
+       "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+       "Accept-Encoding":"gzip, deflate, br",
+       "Accept-Language":"pt,en-US;q=0.9,en;q=0.8,pt-BR;q=0.7",
+       "Cookie":"_ga=GA1.1.1843060462.1537888234; intercom-id-xprpe8ck=40de6023-de30-4b35-b73d-8ea8492d3874"
+    },
+    "path":"/brands/18a36cab-29e7-4596-80fa-282f38cb71a1.png",
+    "pathParameters":{  
+       "any":"brands%2F18a36cab-29e7-4596-80fa-282f38cb71a1.png"
+    },
+    "requestContext":{  
+       "accountId":"offlineContext_accountId",
+       "resourceId":"offlineContext_resourceId",
+       "apiId":"offlineContext_apiId",
+       "stage":"development",
+       "requestId":"offlineContext_requestId_7365555385483253",
+       "identity":{  
+          "cognitoIdentityPoolId":"offlineContext_cognitoIdentityPoolId",
+          "accountId":"offlineContext_accountId",
+          "cognitoIdentityId":"offlineContext_cognitoIdentityId",
+          "caller":"offlineContext_caller",
+          "apiKey":"offlineContext_apiKey",
+          "sourceIp":"127.0.0.1",
+          "cognitoAuthenticationType":"offlineContext_cognitoAuthenticationType",
+          "cognitoAuthenticationProvider":"offlineContext_cognitoAuthenticationProvider",
+          "userArn":"offlineContext_userArn",
+          "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
+          "user":"offlineContext_user"
+       },
+       "authorizer":{  
+          "principalId":"offlineContext_authorizer_principalId"
+       },
+       "protocol":"HTTP/1.1",
+       "resourcePath":"/{any*}",
+       "httpMethod":"GET"
+    },
+    "resource":"/{any*}",
+    "httpMethod":"GET",
+    "queryStringParameters":{
+       "width": "2500",
+       "height": "1500"
+    },
+    "stageVariables":null,
+    "body":null,
+    "isOffline":true
+ }

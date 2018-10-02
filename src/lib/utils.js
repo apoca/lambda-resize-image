@@ -1,17 +1,18 @@
 import { S3 as _S3 } from 'aws-sdk';
-import { createReadStream, unlink } from 'fs';
+import { unlink, readFileSync } from 'fs';
 const PathReg = new RegExp('(.*)/(.*)');
 
-export function resizeCallback(error, newKey, tmpImageName) {
+export function resizeCallback(error, contentType, newKey, tmpImageName) {
   return new Promise((resolve, reject) => {
     if (error) {
       reject(error);
     } else {
       const S3 = new _S3({ signatureVersion: 'v4' });
-      S3.upload(
+      S3.putObject(
         {
           Bucket: process.env.BUCKET,
-          Body: createReadStream(tmpImageName),
+          Body: readFileSync(tmpImageName),
+          ContentType: contentType,
           Key: newKey
         },
         (err, data) => {
@@ -21,7 +22,7 @@ export function resizeCallback(error, newKey, tmpImageName) {
 
           resolve({
             statusCode: 301,
-            headers: { Location: data.Location }
+            headers: { Location: `${process.env.URL}/${newKey}` }
           });
         }
       );

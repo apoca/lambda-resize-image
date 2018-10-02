@@ -1,59 +1,56 @@
-import AWSMock from 'aws-sdk-mock';
-import AWS from 'aws-sdk';
-AWSMock.setSDKInstance(AWS);
+import fs from 'fs';
 import { promisify } from 'util';
 import { imageprocess } from '../../src/handler';
+import eventStub from './stubs/eventHttpApiGateway.json';
+import maxWithRequired from './stubs/maxWithRequired.json';
 
 const handler = promisify(imageprocess);
 
 describe('Service aws to Lambda Resize image', () => {
-  beforeAll(() => {
-    AWSMock.mock('S3', 'putObject', function(params, callback) {
-      console.log('MOCK WORKS!');
-    });
-  });
-
   afterEach(() => {
     delete process.env.BUCKET;
     delete process.env.URL;
   });
 
-  afterAll(() => {
-    AWSMock.restore('S3');
-  });
-
-  test('Require environment variables', done => {
-    process.env.BUCKET = null;
-    process.env.URL = null;
-
-    const context = {};
+  test('Require environment variables', () => {
     const event = {
       path: 'image.png'
     };
-    const callback = (err, res) => {
-      expect(res.statusCode).toBe(404);
-      done();
-    };
-
-    return handler(event, context, callback);
-  });
-
-  test('Require image size', done => {
-    process.env.BUCKET = 'my-bucket-here';
-    process.env.URL = 'localhost:3000';
-    const event = {
-      path: 'image.png',
-      queryParameters: {
-        width: 330,
-        height: 330
-      }
-    };
     const context = {};
 
-    const callback = (err, res) => {
-      done();
-    };
+    const result = handler(event, context);
+    result
+      .then(data => {
+        expect(data.statusCode).toBe(404);
+      })
+      .catch(e => {
+        expect(e).toBe('Error: Set environment variables BUCKET and URL.');
+      });
+  });
 
-    handler(event, context, callback);
+  test('Require image size', () => {
+    process.env.BUCKET = 'foo';
+    process.env.URL = 'bar';
+    const event = eventStub;
+    const context = {};
+
+    const result = handler(event, context);
+    result.then(data => expect(data).toMatchSnapshot());
+  });
+
+  test('Image size not permited', () => {
+    process.env.BUCKET = 'foo';
+    process.env.URL = 'bar';
+    const event = maxWithRequired;
+    const context = {};
+
+    const result = handler(event, context);
+    result
+      .then(data => {
+        expect(data.statusCode).toBe(403);
+      })
+      .catch(e => {
+        expect(e).toBe('Image size not permited.');
+      });
   });
 });
