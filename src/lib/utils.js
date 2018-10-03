@@ -8,6 +8,7 @@ export function resizeCallback(error, contentType, newKey, tmpImageName) {
       reject(error);
     } else {
       const S3 = new _S3({ signatureVersion: 'v4' });
+
       S3.putObject(
         {
           Bucket: process.env.BUCKET,

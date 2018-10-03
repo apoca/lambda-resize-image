@@ -1,11 +1,11 @@
-const AWS = require('aws-sdk');
-const im = require('imagemagick');
-const os = require('os');
-const { resizeCallback, generateS3Key } = require('./utils');
+import { S3 as _S3 } from 'aws-sdk';
+import { crop, resize } from 'imagemagick';
+import { tmpDir } from 'os';
+import { resizeCallback, generateS3Key } from './utils';
 
-exports.getImage = key =>
-  new Promise((resolve, reject) => {
-    const S3 = new AWS.S3({ signatureVersion: 'v4' });
+export function getImage(key) {
+  return new Promise((resolve, reject) => {
+    const S3 = new _S3({ signatureVersion: 'v4' });
     S3.getObject(
       {
         Bucket: process.env.BUCKET,
@@ -21,10 +21,11 @@ exports.getImage = key =>
       }
     );
   });
+}
 
-exports.checkKeyExists = (key, size) =>
-  new Promise((resolve, reject) => {
-    const S3 = new AWS.S3({ signatureVersion: 'v4' });
+export function checkKeyExists(key, size) {
+  return new Promise((resolve, reject) => {
+    const S3 = new _S3({ signatureVersion: 'v4' });
     S3.headObject(
       {
         Bucket: process.env.BUCKET,
@@ -32,7 +33,7 @@ exports.checkKeyExists = (key, size) =>
       },
       err => {
         if (err && err.code === 'NotFound')
-          return this.resizeImage(key, size)
+          return resizeImage(key, size)
             .then(resolve)
             .catch(reject);
 
@@ -45,10 +46,12 @@ exports.checkKeyExists = (key, size) =>
       }
     );
   });
+}
 
-exports.resizeImage = (key, size) =>
-  new Promise((resolve, reject) => {
-    const S3 = new AWS.S3({ signatureVersion: 'v4' });
+export function resizeImage(key, size) {
+  return new Promise((resolve, reject) => {
+    const S3 = new _S3({ signatureVersion: 'v4' });
+
     S3.getObject(
       {
         Bucket: process.env.BUCKET,
@@ -57,12 +60,12 @@ exports.resizeImage = (key, size) =>
       (err, data) => {
         if (err) return reject(err);
 
-        const tmpImageName = `${os.tmpDir}/resized.${process.env.BUCKET}.${
-          size.width
-        }.${size.height}`;
+        if (size.width && size.height) {
+          const tmpImageName = `${tmpDir}/resized.${process.env.BUCKET}.${
+            size.width
+          }.${size.height}`;
 
-        if (!isNaN(size.width) && !isNaN(size.height)) {
-          im.crop(
+          crop(
             {
               width: size.width,
               height: size.height,
@@ -85,7 +88,11 @@ exports.resizeImage = (key, size) =>
             }
           );
         } else if (size.width) {
-          im.resize(
+          const tmpImageName = `${tmpDir}/resized.${process.env.BUCKET}.${
+            size.width
+          }`;
+
+          resize(
             {
               width: size.width,
               srcData: data.Body,
@@ -115,3 +122,4 @@ exports.resizeImage = (key, size) =>
       }
     );
   });
+}

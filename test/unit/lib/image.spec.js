@@ -1,15 +1,39 @@
-var AWSMock = require('aws-sdk-mock');
+import AWSMock from 'aws-sdk-mock';
 import fs from 'fs';
 import path from 'path';
-import { getImage, checkKeyExists, resizeImage } from '../../../src/lib/image';
+import * as image from '../../../src/lib/image';
+import * as utils from '../../../src/lib/utils';
 
-describe('Test getImage', () => {
+describe('Test getImage with error rejects', () => {
+  beforeAll(() => {
+    AWSMock.mock('S3', 'getObject', (params, callback) => {
+      callback(true, null);
+    });
+  });
+
+  afterAll(() => {
+    AWSMock.restore('S3');
+  });
+
+  test('Get an error when retrieve an image', () => {
+    expect.assertions(1);
+    process.env.URL = 'localhost:3000';
+    process.env.BUCKET = 'my-bucket-here';
+    const key = 'images/default_640x480.jpg';
+
+    return expect(image.getImage(key)).rejects.toBeTruthy();
+  });
+});
+
+describe('Test getImage success resolve', () => {
   const defaultImage = path.resolve(
     __dirname + '../../../images/default_640x480.jpg'
   );
 
   beforeAll(() => {
-    AWSMock.mock('S3', 'getObject', Buffer.from(fs.readFileSync(defaultImage)));
+    AWSMock.mock('S3', 'getObject', (params, callback) => {
+      callback(null, Buffer.from(fs.readFileSync(defaultImage)));
+    });
   });
 
   afterEach(() => {
@@ -22,11 +46,11 @@ describe('Test getImage', () => {
   });
 
   test('Get image from aws getImage from local bucket', () => {
-    process.env.BUCKET = 'example';
-    process.env.URL = 'localhost:3001';
+    process.env.URL = 'localhost:3000';
+    process.env.BUCKET = 'my-bucket-here';
     const key = 'images/default_640x480.jpg';
 
-    return getImage(key).then(data => {
+    return image.getImage(key).then(data => {
       expect(data).toMatchObject({
         statusCode: 301,
         headers: {
@@ -37,7 +61,49 @@ describe('Test getImage', () => {
   });
 });
 
-describe('Test checkKeyExists', () => {
+/*describe('Test checkKeyExists on error', () => {
+  beforeAll(() => {
+    AWSMock.mock('S3', 'headObject', (params, callback) => {
+      const error = {
+        code: 'NotFound'
+      };
+
+      callback(error, null);
+    });
+  });
+
+  afterAll(() => {
+    AWSMock.restore('S3');
+    jest.unmock(image.resizeImage);
+  });
+
+  test('Key does not exists, so return an error not found', () => {
+    process.env.URL = 'localhost:3000';
+    process.env.BUCKET = 'my-bucket-here';
+    const key = 'images/default_640x480.jpg';
+    const size = {
+      width: 150,
+      height: 150
+    };
+
+    const data = {
+      statusCode: 301,
+      headers: {
+        Location: `${process.env.URL}/images/${size.width}x${
+          size.height
+        }/default_640x480.jpg`
+      }
+    };
+
+    image.resizeImage = jest.fn(() => data);
+
+    return image.checkKeyExists(key, size).catch(e => {
+      expect(e).toEqual('NotFound');
+    });
+  });
+});*/
+
+describe('Test checkKeyExists on success', () => {
   beforeAll(() => {
     AWSMock.mock('S3', 'headObject', (params, callback) => {
       const data = {
@@ -48,25 +114,20 @@ describe('Test checkKeyExists', () => {
     });
   });
 
-  afterEach(() => {
-    delete process.env.BUCKET;
-    delete process.env.URL;
-  });
-
   afterAll(() => {
     AWSMock.restore('S3');
   });
 
   test('Get url from aws checkKeyExists width with and height', () => {
-    process.env.BUCKET = 'example';
-    process.env.URL = 'localhost:3001';
+    process.env.URL = 'localhost:3000';
+    process.env.BUCKET = 'my-bucket-here';
     const key = 'images/image.jpg';
     const size = {
       width: 500,
       height: 500
     };
 
-    return checkKeyExists(key, size).then(data => {
+    return image.checkKeyExists(key, size).then(data => {
       expect(data).toMatchObject({
         statusCode: 301,
         headers: { Location: `${process.env.URL}/images/500x500/image.jpg` }
@@ -75,14 +136,14 @@ describe('Test checkKeyExists', () => {
   });
 
   test('Get url from aws checkKeyExists widthout height, should retuen auto', () => {
-    process.env.BUCKET = 'example';
-    process.env.URL = 'localhost:3001';
+    process.env.URL = 'localhost:3000';
+    process.env.BUCKET = 'my-bucket-here';
     const key = 'images/image.jpg';
     const size = {
       width: 500
     };
 
-    return checkKeyExists(key, size).then(data => {
+    return image.checkKeyExists(key, size).then(data => {
       expect(data).toMatchObject({
         statusCode: 301,
         headers: { Location: `${process.env.URL}/images/500xAUTO/image.jpg` }
@@ -91,38 +152,227 @@ describe('Test checkKeyExists', () => {
   });
 });
 
-describe('Test resizeImage', () => {
-  const defaultImage = path.resolve(
-    __dirname + '../../../images/default_640x480.jpg'
-  );
-
+describe('Test resizeImage without with and height values', () => {
   beforeAll(() => {
-    AWSMock.mock('S3', 'getObject', Buffer.from(fs.readFileSync(defaultImage)));
-  });
+    AWSMock.mock('S3', 'getObject', (params, callback) => {
+      const data = {
+        Location: `${process.env.URL}/images/default.jpg`
+      };
 
-  afterEach(() => {
-    delete process.env.BUCKET;
-    delete process.env.URL;
+      callback(null, data);
+    });
   });
 
   afterAll(() => {
     AWSMock.restore('S3');
   });
-  /*
-  test('Get url from aws resizeImage width with and height', () => {
-    process.env.BUCKET = 'example';
-    process.env.URL = 'localhost:3001';
-    const key = 'images/default_640x480.jpg';
-    const size = {
-      width: 500,
-      height: 500
-    };
 
-    return resizeImage(key, size).then(data => {
+  test('Get original url if no size given', () => {
+    process.env.URL = 'localhost:3000';
+    process.env.BUCKET = 'my-bucket-here';
+    const key = 'images/default.jpg';
+    const size = {};
+
+    return image.resizeImage(key, size).then(data => {
       expect(data).toMatchObject({
         statusCode: 301,
-        headers: { Location: `${process.env.URL}/images/500x500/image.jpg` }
+        headers: { Location: `${process.env.URL}/images/default.jpg` }
       });
     });
-  });*/
+  });
+});
+
+describe('Test resizeImage with an error', () => {
+  beforeAll(() => {
+    AWSMock.mock('S3', 'getObject', (params, callback) => {
+      callback(true, null);
+    });
+  });
+
+  afterAll(() => {
+    AWSMock.restore('S3');
+  });
+
+  test('Get original url if no size given', () => {
+    process.env.URL = 'localhost:3000';
+    process.env.BUCKET = 'my-bucket-here';
+    const key = 'images/default.jpg';
+    const size = {};
+
+    return expect(image.resizeImage(key, size)).rejects.toBeTruthy();
+  });
+});
+
+describe('Test success resizeImage with size width only', () => {
+  const defaultImage = path.resolve(
+    __dirname + '../../../images/default_640x480.jpg'
+  );
+  beforeAll(() => {
+    AWSMock.mock('S3', 'getObject', (params, callback) => {
+      const data = {
+        Body: Buffer.from(fs.readFileSync(defaultImage))
+      };
+
+      callback(null, data);
+    });
+
+    AWSMock.mock('S3', 'putObject', (params, callback) => {
+      const data = {
+        Location: `${process.env.URL}/images/150xAUTO/default.jpg`
+      };
+
+      callback(null, data);
+    });
+  });
+
+  afterAll(() => {
+    AWSMock.restore('S3');
+    jest.unmock(utils.resizeCallback);
+  });
+
+  test('Get url images/150xAUTO/default.jpg', () => {
+    expect.assertions(1);
+    process.env.URL = 'localhost:3000';
+    process.env.BUCKET = 'my-bucket-here';
+    const key = 'images/default.jpg';
+    const size = {
+      width: 150,
+      height: null
+    };
+
+    const data = {
+      statusCode: 301,
+      headers: {
+        Location: `${process.env.URL}/images/${size.width}xAUTO/default.jpg`
+      }
+    };
+
+    utils.resizeCallback = jest.fn(() => data);
+
+    return image.resizeImage(key, size).then(result => {
+      expect(result).toMatchObject(data);
+    });
+  });
+
+  test('Get error url images/150xAUTO/default.jpg', () => {
+    expect.assertions(1);
+    process.env.URL = 'localhost:3000';
+    process.env.BUCKET = 'my-bucket-here';
+    const key = 'images/default.jpg';
+    const size = {
+      width: 150,
+      height: null
+    };
+
+    const data = {
+      statusCode: 301,
+      headers: {
+        Location: `${process.env.URL}/images/${size.width}xAUTO/default.jpg`
+      }
+    };
+
+    utils.resizeCallback = jest.fn(() => data);
+
+    return image.resizeImage(key, size).then(result => {
+      expect(result).toMatchObject(data);
+    });
+  });
+
+  test('Get url images/150x150/default.jpg', () => {
+    expect.assertions(1);
+    process.env.URL = 'localhost:3000';
+    process.env.BUCKET = 'my-bucket-here';
+    const key = 'images/default.jpg';
+    const size = {
+      width: 150,
+      height: 150
+    };
+
+    const data = {
+      statusCode: 301,
+      headers: {
+        Location: `${process.env.URL}/images/${size.width}x${
+          size.height
+        }/default.jpg`
+      }
+    };
+
+    utils.resizeCallback = jest.fn(() => data);
+
+    return image.resizeImage(key, size).then(result => {
+      expect(result).toMatchObject(data);
+    });
+  });
+});
+
+describe('Test error resizeImage with size width only', () => {
+  const defaultImage = path.resolve(__dirname + '../../../images/default.txt');
+  beforeAll(() => {
+    AWSMock.mock('S3', 'getObject', (params, callback) => {
+      const data = {
+        Body: Buffer.from(fs.readFileSync(defaultImage))
+      };
+
+      callback(null, data);
+    });
+
+    AWSMock.mock('S3', 'putObject', (params, callback) => {
+      const data = {
+        Location: `${process.env.URL}/images/150xAUTO/default.txt`
+      };
+
+      callback(null, data);
+    });
+  });
+
+  afterAll(() => {
+    AWSMock.restore('S3');
+    jest.unmock(utils.resizeCallback);
+  });
+
+  test('Get error when retrieve url images/150xAUTO/default.txt', () => {
+    expect.assertions(1);
+    process.env.URL = 'localhost:3000';
+    process.env.BUCKET = 'my-bucket-here';
+    const key = 'images/default.txt';
+    const size = {
+      width: 150,
+      height: null
+    };
+
+    const data = {
+      statusCode: 301,
+      headers: {
+        Location: `${process.env.URL}/images/${size.width}xAUTO/default.txt'`
+      }
+    };
+
+    utils.resizeCallback = jest.fn(() => data);
+
+    return expect(image.resizeImage(key, size)).rejects.toBeTruthy();
+  });
+
+  test('Get error when retrieve url images/150x150/default.txt', () => {
+    expect.assertions(1);
+    process.env.URL = 'localhost:3000';
+    process.env.BUCKET = 'my-bucket-here';
+    const key = 'images/default.txt';
+    const size = {
+      width: 150,
+      height: 150
+    };
+
+    const data = {
+      statusCode: 301,
+      headers: {
+        Location: `${process.env.URL}/images/${size.width}x${
+          size.height
+        }/default.txt'`
+      }
+    };
+
+    utils.resizeCallback = jest.fn(() => data);
+
+    return expect(image.resizeImage(key, size)).rejects.toBeTruthy();
+  });
 });
