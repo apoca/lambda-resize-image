@@ -61,7 +61,7 @@ describe('Test getImage success resolve', () => {
   });
 });
 
-/*describe('Test checkKeyExists on error', () => {
+describe('Test checkKeyExists on error', () => {
   beforeAll(() => {
     AWSMock.mock('S3', 'headObject', (params, callback) => {
       const error = {
@@ -69,6 +69,13 @@ describe('Test getImage success resolve', () => {
       };
 
       callback(error, null);
+    });
+    AWSMock.mock('S3', 'getObject', (_params, callback) => {
+      const data = {
+        Location: `${process.env.URL}/images/default.jpg`
+      };
+
+      callback(null, data);
     });
   });
 
@@ -86,22 +93,11 @@ describe('Test getImage success resolve', () => {
       height: 150
     };
 
-    const data = {
-      statusCode: 301,
-      headers: {
-        Location: `${process.env.URL}/images/${size.width}x${
-          size.height
-        }/default_640x480.jpg`
-      }
-    };
-
-    image.resizeImage = jest.fn(() => data);
-
     return image.checkKeyExists(key, size).catch(e => {
-      expect(e).toEqual('NotFound');
+      expect(e).toBeTruthy();
     });
   });
-});*/
+});
 
 describe('Test checkKeyExists on success', () => {
   beforeAll(() => {
