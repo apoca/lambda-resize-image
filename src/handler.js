@@ -43,7 +43,7 @@ export function imageprocess(event, context, callback) {
         body: JSON.stringify(err)
       })
     );
-  } else if (size.width) {
+  } else {
     return checkKeyExists(imageKey, size).catch(err =>
       callback(null, {
         statusCode: err.statusCode || 404,
@@ -51,11 +51,4 @@ export function imageprocess(event, context, callback) {
       })
     );
   }
-
-  return resizeImage(imageKey, size).catch(err =>
-    callback(null, {
-      statusCode: err.statusCode || 404,
-      body: JSON.stringify(err)
-    })
-  );
 }
