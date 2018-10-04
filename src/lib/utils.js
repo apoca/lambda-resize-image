@@ -1,46 +1,44 @@
-const AWS = require('aws-sdk');
-const S3 = new AWS.S3({ signatureVersion: 'v4' });
-const fs = require('fs');
+import { S3 as _S3 } from 'aws-sdk';
+import { unlink, readFileSync } from 'fs';
 const PathReg = new RegExp('(.*)/(.*)');
-const { BUCKET, URL } = process.env;
 
-exports.resizeCallback = (error, contentType, newKey, tmpImageName) =>
-  new Promise((resolve, reject) => {
+export function resizeCallback(error, contentType, newKey, tmpImageName) {
+  return new Promise((resolve, reject) => {
     if (error) {
-      reject({
-        statusCode: error.code,
-        headers: {
-          'X-Error': error || null
-        },
-        body: JSON.stringify(error)
-      });
+      reject(error);
     } else {
+      const S3 = new _S3({ signatureVersion: 'v4' });
+
       S3.putObject(
         {
-          Bucket: BUCKET,
-          Body: fs.readFileSync(tmpImageName),
+          Bucket: process.env.BUCKET,
+          Body: readFileSync(tmpImageName),
           ContentType: contentType,
           Key: newKey
         },
         err => {
           if (err) return reject(err);
 
-          fs.unlink(tmpImageName, () =>
-            console.log('INFO: Resized file cleaned up')
-          );
+          unlink(tmpImageName);
 
           resolve({
             statusCode: 301,
-            headers: { Location: `${URL}/${newKey}` }
+            headers: { Location: `${process.env.URL}/${newKey}` }
           });
         }
       );
     }
   });
+}
 
-exports.generateS3Key = (key, size) => {
+export function generateS3Key(key, size) {
   let parts = PathReg.exec(key);
-  let oldKey = parts[1] || '';
+
+  if (!parts) {
+    return key;
+  }
+
+  let oldKey = parts[1];
   let filename = parts[2];
   let width = size.width || null;
   let height = size.height || 'AUTO';
@@ -50,4 +48,4 @@ exports.generateS3Key = (key, size) => {
   }
 
   return `${oldKey}/${filename}`;
-};
+}

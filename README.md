@@ -13,28 +13,29 @@ An AWS Lambda Function to resize images automatically with API Gateway and S3 fo
 ## Contents
 
 - [lambda-resize-image](#lambda-resize-image)
-    - [Contents](#contents)
-    - [Requirements](#requirements)
-    - [What is it?](#what-is-it)
-    - [Description](#description)
-    - [Features](#features)
-    - [Instalation](#instalation)
-        - [AWS credentials](#aws-credentials)
-        - [Deploy to Amazon AWS](#deploy-to-amazon-aws)
-    - [Usage (image restrictions resize)](#usage-image-restrictions-resize)
-        - [Example URL usage](#example-url-usage)
-    - [Environment variables](#environment-variables)
-        - [Environment variables for serverless](#environment-variables-for-serverless)
-    - [Local development](#local-development)
-        - [Example request](#example-request)
-            - [Configuration Parameters](#configuration-parameters)
-    - [Contributing](#contributing)
-    - [License](#license)
-    - [Author](#author)
+  - [Contents](#contents)
+  - [Requirements](#requirements)
+  - [What is it?](#what-is-it)
+  - [Description](#description)
+  - [Features](#features)
+  - [Instalation](#instalation)
+    - [AWS credentials](#aws-credentials)
+    - [Deploy to Amazon AWS](#deploy-to-amazon-aws)
+  - [Usage (image restrictions resize)](#usage-image-restrictions-resize)
+    - [Example URL usage](#example-url-usage)
+  - [Environment variables](#environment-variables)
+    - [Environment variables for serverless](#environment-variables-for-serverless)
+  - [Local development](#local-development)
+    - [Example request](#example-request)
+      - [Configuration Parameters](#configuration-parameters)
+  - [Feedback](#feedback)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Author](#author)
 
 ## Requirements
 
-- Node.js - AWS Lambda supports versions of **6.10** and **8.10**
+- Node.js - AWS Lambda supports versions of **8.10** or above.
 
 ## What is it?
 
@@ -157,6 +158,10 @@ Note that you will need to be into the root repository. The last command (4.) wi
 | :-------: | :-----: | -------------------------------------------------- |
 | width     | Integer | Required. Will resize image via imagemagic resize. |
 | height    | Integer | Optional. Will resize image via imagemagic crop.   |
+
+## Feedback
+
+We'd love to get feedback on how you're using lambda-resize-image and things we could add to make this tool better. Feel free to contact us at vieira@miguelvieira.com.pt
 
 ## Contributing
 

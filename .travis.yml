@@ -1,8 +1,6 @@
 language: node_js
 
 node_js:
-  - '6'
-  - '7'
   - '8'
 
 install:
@@ -10,7 +8,7 @@ install:
 
 script:
   - npm run pretest
-  - codecov
+  - npm run test -- --coverage
 
 cache:
   directories:
