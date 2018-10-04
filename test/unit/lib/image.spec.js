@@ -6,7 +6,7 @@ import * as utils from '../../../src/lib/utils';
 
 describe('Test getImage with error rejects', () => {
   beforeAll(() => {
-    AWSMock.mock('S3', 'getObject', (params, callback) => {
+    AWSMock.mock('S3', 'getObject', (_params, callback) => {
       callback(true, null);
     });
   });
@@ -31,7 +31,7 @@ describe('Test getImage success resolve', () => {
   );
 
   beforeAll(() => {
-    AWSMock.mock('S3', 'getObject', (params, callback) => {
+    AWSMock.mock('S3', 'getObject', (_params, callback) => {
       callback(null, Buffer.from(fs.readFileSync(defaultImage)));
     });
   });
@@ -105,7 +105,7 @@ describe('Test getImage success resolve', () => {
 
 describe('Test checkKeyExists on success', () => {
   beforeAll(() => {
-    AWSMock.mock('S3', 'headObject', (params, callback) => {
+    AWSMock.mock('S3', 'headObject', (_params, callback) => {
       const data = {
         Location: `${process.env.URL}/images/image.jpg`
       };
@@ -154,7 +154,7 @@ describe('Test checkKeyExists on success', () => {
 
 describe('Test resizeImage without with and height values', () => {
   beforeAll(() => {
-    AWSMock.mock('S3', 'getObject', (params, callback) => {
+    AWSMock.mock('S3', 'getObject', (_params, callback) => {
       const data = {
         Location: `${process.env.URL}/images/default.jpg`
       };
@@ -184,7 +184,7 @@ describe('Test resizeImage without with and height values', () => {
 
 describe('Test resizeImage with an error', () => {
   beforeAll(() => {
-    AWSMock.mock('S3', 'getObject', (params, callback) => {
+    AWSMock.mock('S3', 'getObject', (_params, callback) => {
       callback(true, null);
     });
   });
@@ -208,7 +208,7 @@ describe('Test success resizeImage with size width only', () => {
     __dirname + '../../../images/default_640x480.jpg'
   );
   beforeAll(() => {
-    AWSMock.mock('S3', 'getObject', (params, callback) => {
+    AWSMock.mock('S3', 'getObject', (_params, callback) => {
       const data = {
         Body: Buffer.from(fs.readFileSync(defaultImage))
       };
@@ -216,7 +216,7 @@ describe('Test success resizeImage with size width only', () => {
       callback(null, data);
     });
 
-    AWSMock.mock('S3', 'putObject', (params, callback) => {
+    AWSMock.mock('S3', 'putObject', (_params, callback) => {
       const data = {
         Location: `${process.env.URL}/images/150xAUTO/default.jpg`
       };
@@ -308,7 +308,7 @@ describe('Test success resizeImage with size width only', () => {
 describe('Test error resizeImage with size width only', () => {
   const defaultImage = path.resolve(__dirname + '../../../images/default.txt');
   beforeAll(() => {
-    AWSMock.mock('S3', 'getObject', (params, callback) => {
+    AWSMock.mock('S3', 'getObject', (_params, callback) => {
       const data = {
         Body: Buffer.from(fs.readFileSync(defaultImage))
       };
@@ -316,7 +316,7 @@ describe('Test error resizeImage with size width only', () => {
       callback(null, data);
     });
 
-    AWSMock.mock('S3', 'putObject', (params, callback) => {
+    AWSMock.mock('S3', 'putObject', (_params, callback) => {
       const data = {
         Location: `${process.env.URL}/images/150xAUTO/default.txt`
       };
