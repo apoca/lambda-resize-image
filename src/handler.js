@@ -1,5 +1,4 @@
 import { getImage, checkKeyExists } from './lib/image';
-import { parse } from 'url';
 const ALLOWED_DIMENSIONS = {
   width: 1800,
   height: 1800
