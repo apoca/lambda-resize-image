@@ -24,7 +24,6 @@ An AWS Lambda Function to resize images automatically with API Gateway and S3 fo
   - [Usage (image restrictions resize)](#usage-image-restrictions-resize)
     - [Example URL usage](#example-url-usage)
   - [Environment variables](#environment-variables)
-    - [Environment variables for serverless](#environment-variables-for-serverless)
   - [Local development](#local-development)
     - [Example request](#example-request)
       - [Configuration Parameters](#configuration-parameters)
@@ -127,12 +126,13 @@ You can also change the url endpoint `https://<api_key_here>.execute-api.eu-west
 
 ### Example URL usage
 
-`https://api.example.com/<OPTIONAL_SERVICE_NAME>/<KEY_S3_IMAGE_HERE>?width=<WIDTH>&height=<HEIGHT>`
+`https://api.example.com/<SERVICE_PATH>/<KEY_S3_IMAGE_HERE>?width=<WIDTH>&height=<HEIGHT>`
 
 ## Environment variables
 
 - URL - AWS URL S3 bucket or your CDN url to the BUCKET. (required)
 - BUCKET - AWS S3 bucket. (required)
+- SERVICE_PATH - URL to servive path. (optional)
 
   ### Environment variables for serverless
 
