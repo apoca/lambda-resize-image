@@ -1,4 +1,4 @@
-import { resizeImage, getImage, checkKeyExists } from './lib/image';
+import { getImage, checkKeyExists } from './lib/image';
 import { parse } from 'url';
 const ALLOWED_DIMENSIONS = {
   width: 1800,
@@ -7,8 +7,11 @@ const ALLOWED_DIMENSIONS = {
 
 export function imageprocess(event, context, callback) {
   const queryParameters = event.queryStringParameters || {};
-  const path = event.path;
-  const imageKey = parse(path).pathname.replace(/^\//g, '');
+  const SERVICE_PATH = process.env.SERVICE_PATH;
+  let path = event.path.split('/');
+  const envService = SERVICE_PATH ? SERVICE_PATH.split('/') : '';
+  path = path.filter(val => !envService.includes(val));
+  const imageKey = path.join('/');
 
   if (!process.env.BUCKET || !process.env.URL) {
     return callback(null, {
