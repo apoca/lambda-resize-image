@@ -1,7 +1,11 @@
 import AWSMock from 'aws-sdk-mock';
 import fs from 'fs';
 import path from 'path';
-import { generateS3Key, resizeCallback } from '../../../src/lib/utils';
+import {
+  generateS3Key,
+  resizeCallback,
+  getImageKey
+} from '../../../src/lib/utils';
 
 describe('Test resizeCallback error', () => {
   const newKey = 'new_default_640x480.jpg';
@@ -130,6 +134,15 @@ describe('Test generateS3Key', () => {
 
     expect(generateS3Key('xpto/name_here.jpg', size)).toEqual(
       'xpto/name_here.jpg'
+    );
+  });
+});
+
+describe('Test getImageKey', () => {
+  process.env.API_URL = 'localhost:3001/v1';
+  test('Should return ImageKey', () => {
+    expect(getImageKey('localhost:3001/v1/name_here.jpg')).toEqual(
+      'name_here.jpg'
     );
   });
 });

@@ -126,13 +126,13 @@ You can also change the url endpoint `https://<api_key_here>.execute-api.eu-west
 
 ### Example URL usage
 
-`https://api.example.com/<SERVICE_PATH>/<KEY_S3_IMAGE_HERE>?width=<WIDTH>&height=<HEIGHT>`
+`<API_URL>/<KEY_S3_IMAGE_HERE>?width=<WIDTH>&height=<HEIGHT>`
 
 ## Environment variables
 
 - URL - AWS URL S3 bucket or your CDN url to the BUCKET. (required)
 - BUCKET - AWS S3 bucket. (required)
-- SERVICE_PATH - URL to servive path. (optional)
+- API_URL - URL to api domain and service. (required) ex: "https://api.yourdomain.com/v1/yourservicename"
 
   ### Environment variables for serverless
 

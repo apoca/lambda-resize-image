@@ -1,4 +1,5 @@
 import { getImage, checkKeyExists } from './lib/image';
+import { getImageKey } from './lib/utils';
 const ALLOWED_DIMENSIONS = {
   width: 1800,
   height: 1800
@@ -6,16 +7,11 @@ const ALLOWED_DIMENSIONS = {
 
 export function imageprocess(event, context, callback) {
   const queryParameters = event.queryStringParameters || {};
-  const SERVICE_PATH = process.env.SERVICE_PATH;
-  let path = event.path.split('/');
-  const envService = SERVICE_PATH ? SERVICE_PATH.split('/') : '';
-  path = path.filter(val => !envService.includes(val));
-  const imageKey = path.join('/');
 
-  if (!process.env.BUCKET || !process.env.URL) {
+  if (!process.env.BUCKET || !process.env.URL || !process.env.API_URL) {
     return callback(null, {
       statusCode: 404,
-      body: 'Error: Set environment variables BUCKET and URL.'
+      body: 'Error: Set environment variables BUCKET, URL and API_URL.'
     });
   }
 
@@ -37,6 +33,8 @@ export function imageprocess(event, context, callback) {
       body: 'Error: Image size not permited.'
     });
   }
+
+  const imageKey = getImageKey(event.path);
 
   if (!size.width && !size.height) {
     return getImage(imageKey).catch(err =>
