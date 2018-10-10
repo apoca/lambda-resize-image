@@ -49,3 +49,11 @@ export function generateS3Key(key, size) {
 
   return `${oldKey}/${filename}`;
 }
+
+export function getImageKey(path) {
+  let apiUrl = process.env.API_URL;
+  apiUrl.replace(/\//g, '\\/');
+  const regExp = new RegExp(`(?<=${apiUrl}\\/).*`);
+
+  return path.match(regExp)[0];
+}
