@@ -1,6 +1,14 @@
+/**
+ * Module dependencies.
+ */
+
 import { S3 as _S3 } from 'aws-sdk';
 import { unlink, readFileSync } from 'fs';
 const PathReg = new RegExp('(.*)/(.*)');
+
+/**
+ * Export `resizeCallback` util.
+ */
 
 export function resizeCallback(error, contentType, newKey, tmpImageName) {
   return new Promise((resolve, reject) => {
@@ -34,6 +42,10 @@ export function resizeCallback(error, contentType, newKey, tmpImageName) {
     }
   });
 }
+
+/**
+ * Export `generateS3Key` util.
+ */
 
 export function generateS3Key(key, size) {
   let parts = PathReg.exec(key);
