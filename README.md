@@ -24,6 +24,7 @@ An AWS Lambda Function to resize images automatically with API Gateway and S3 fo
   - [Usage (image restrictions resize)](#usage-image-restrictions-resize)
     - [Example URL usage](#example-url-usage)
   - [Environment variables](#environment-variables)
+    - [Environment variables for serverless](#environment-variables-for-serverless)
   - [Local development](#local-development)
     - [Example request](#example-request)
       - [Configuration Parameters](#configuration-parameters)
@@ -103,9 +104,9 @@ stack: resizeS3Image-development
 api keys:
   None
 endpoints:
-  GET - https://<api_key_here>.execute-api.eu-west-1.amazonaws.com/development/{any+}
+  GET - https://<api_key_here>.execute-api.eu-west-1.amazonaws.com/dev/{key+}
 functions:
-  handler: resizeS3Image-development-handler
+  handler: resize-dev-image
 Serverless: Removing old service artifacts from S3...
 ```
 
@@ -122,9 +123,13 @@ const ALLOWED_DIMENSIONS = {
 };
 ```
 
-You can also change the url endpoint `https://<api_key_here>.execute-api.eu-west-1.amazonaws.com/development/{any+}` to another one more tiny and cachable (cloudfront), you can also configure in you Api Gateway (lambda service) a **Custom Domain Name**.
+You can also change the url endpoint `https://<api_key_here>.execute-api.eu-west-1.amazonaws.com/dev/{key+}` to another one more tiny and cachable (cloudfront), you can also configure in you Api Gateway (lambda service) a **Custom Domain Name**.
 
 ### Example URL usage
+
+`https://<api_key_here>.execute-api.eu-west-1.amazonaws.com/dev/<KEY_S3_IMAGE_HERE>?width=<WIDTH>&height=<HEIGHT>`
+
+or with you own Custom Domain Names:
 
 `https://api.yourdomain.com/<KEY_S3_IMAGE_HERE>?width=<WIDTH>&height=<HEIGHT>`
 
@@ -133,16 +138,16 @@ You can also change the url endpoint `https://<api_key_here>.execute-api.eu-west
 - URL - AWS URL S3 bucket or your CDN url to the BUCKET. (required)
 - BUCKET - AWS S3 bucket. (required)
 
-  ### Environment variables for serverless
+### Environment variables for serverless
 
-  - AWS_ACCESS_KEY_ID - AWS key
-  - AWS_SECRET_ACCESS_KEY - AWS Secret
+- AWS_ACCESS_KEY_ID - AWS key
+- AWS_SECRET_ACCESS_KEY - AWS Secret
 
 ## Local development
 
 1. `$ npm i -g serverless`
 2. `$ npm i`
-3. `brew install imagemagick`
+3. `$ brew install imagemagick`
 4. `$ serverless offline start`
 
 Note that you will need to be into the root repository. The last command (4.) will spin up an [serverless-offline](https://github.com/dherault/serverless-offline) version of an API Gateway, that will simulate the real one. Once it is running, you can see all the requests on your command line.
@@ -150,6 +155,8 @@ Note that you will need to be into the root repository. The last command (4.) wi
 ### Example request
 
 `http://localhost:3000<YOUR_KEYNAME_TO_IMAGE>?width=<WIDTH>&height=<HEIGHT>`
+
+![Example usage of lambda resize image](https://s3-eu-west-1.amazonaws.com/lambda-resize-image/example-usage-lambda-resize-image.png)
 
 #### Configuration Parameters
 
