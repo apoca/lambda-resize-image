@@ -29,7 +29,7 @@ describe('Service aws to Lambda Resize image', () => {
     handler(event, context).then(data => {
       expect(data.statusCode).toBe(404);
       expect(data.body).toBe(
-        'Error: Set environment variables BUCKET, URL and API_URL.'
+        'Error: Set environment variables BUCKET and URL.'
       );
     });
   });
@@ -44,7 +44,7 @@ describe('Service aws to Lambda Resize image', () => {
     handler(event, context).then(data => {
       expect(data.statusCode).toBe(404);
       expect(data.body).toBe(
-        'Error: Set environment variables BUCKET, URL and API_URL.'
+        'Error: Set environment variables BUCKET and URL.'
       );
     });
   });
