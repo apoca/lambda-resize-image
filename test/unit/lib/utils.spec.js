@@ -139,10 +139,9 @@ describe('Test generateS3Key', () => {
 });
 
 describe('Test getImageKey', () => {
-  process.env.API_URL = 'localhost:3001/v1';
   test('Should return ImageKey', () => {
-    expect(getImageKey('localhost:3001/v1/name_here.jpg')).toEqual(
-      'name_here.jpg'
-    );
+    expect(
+      getImageKey('/causes/564f3763-5ce0-40f7-8bf2-105000000000.png')
+    ).toEqual('causes/564f3763-5ce0-40f7-8bf2-105000000000.png');
   });
 });
