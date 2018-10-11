@@ -68,7 +68,7 @@ cd lambda-resize-image
 npm install
 ```
 
-Modify and set the .env.example to env.yml with your data. (You are supposed to have already configured your [local variables](#environment-variables))).
+Modify and set the .env.example to env.yml with your data. (You are supposed to have already configured your [local variables](#environment-variables)).
 
 ### AWS credentials
 

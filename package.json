@@ -64,7 +64,10 @@
     "s3",
     "bucket",
     "imagemagick",
-    "nodejs"
+    "nodejs",
+    "lambda-proxy",
+    "serverless offline",
+    "serverless webpack"
   ],
   "author": {
     "name": "Miguel Vieira",
