@@ -8,10 +8,10 @@ const ALLOWED_DIMENSIONS = {
 export function imageprocess(event, context, callback) {
   const queryParameters = event.queryStringParameters || {};
 
-  if (!process.env.BUCKET || !process.env.URL || !process.env.API_URL) {
+  if (!process.env.BUCKET || !process.env.URL) {
     return callback(null, {
       statusCode: 404,
-      body: 'Error: Set environment variables BUCKET, URL and API_URL.'
+      body: 'Error: Set environment variables BUCKET and URL.'
     });
   }
 

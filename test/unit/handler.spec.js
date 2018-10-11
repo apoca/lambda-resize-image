@@ -17,12 +17,10 @@ describe('Service aws to Lambda Resize image', () => {
   afterEach(() => {
     delete process.env.BUCKET;
     delete process.env.URL;
-    delete process.env.API_URL;
   });
 
   test('Require environment variable BUCKET', () => {
     process.env.URL = 'localhost:3000';
-    process.env.API_URL = 'localhost:3001/v1';
     const event = {
       path: 'image.png'
     };
@@ -38,23 +36,6 @@ describe('Service aws to Lambda Resize image', () => {
 
   test('Require environment variable URL', () => {
     process.env.BUCKET = 'my-bucket-here';
-    process.env.API_URL = 'localhost:3001/v1';
-    const event = {
-      path: 'image.png'
-    };
-    const context = {};
-
-    handler(event, context).then(data => {
-      expect(data.statusCode).toBe(404);
-      expect(data.body).toBe(
-        'Error: Set environment variables BUCKET, URL and API_URL.'
-      );
-    });
-  });
-
-  test('Require environment variable API_URL', () => {
-    process.env.BUCKET = 'my-bucket-here';
-    process.env.URL = 'localhost:3000';
     const event = {
       path: 'image.png'
     };
@@ -71,7 +52,6 @@ describe('Service aws to Lambda Resize image', () => {
   test('Require image height with AUTO value', () => {
     process.env.URL = 'localhost:3000';
     process.env.BUCKET = 'my-bucket-here';
-    process.env.API_URL = 'localhost:3001/v1';
     const event = eventSizeAuto;
     const context = {};
 
@@ -82,7 +62,6 @@ describe('Service aws to Lambda Resize image', () => {
   test('Empty size image', () => {
     process.env.URL = 'localhost:3000';
     process.env.BUCKET = 'my-bucket-here';
-    process.env.API_URL = 'localhost:3001/v1';
     const event = emptySize;
     const context = {};
 
@@ -93,7 +72,6 @@ describe('Service aws to Lambda Resize image', () => {
   test('Require a request with both sizes', () => {
     process.env.URL = 'localhost:3000';
     process.env.BUCKET = 'my-bucket-here';
-    process.env.API_URL = 'localhost:3001/v1';
     const event = eventStub;
     const context = {};
 
@@ -104,7 +82,6 @@ describe('Service aws to Lambda Resize image', () => {
   test('Require size with allowed dimensions', () => {
     process.env.URL = 'localhost:3000';
     process.env.BUCKET = 'my-bucket-here';
-    process.env.API_URL = 'localhost:3001/v1';
     const event = maxSizeEvent;
     const context = {};
 
@@ -119,7 +96,6 @@ describe('test getImageKey', () => {
   test('Return getImageKey', () => {
     process.env.URL = 'localhost:3000';
     process.env.BUCKET = 'my-bucket-here';
-    process.env.API_URL = 'localhost:3001/v1';
     const event = {
       path: 'localhost:3001/v1/image.png'
     };
@@ -160,7 +136,6 @@ describe('Service aws testing and mocking library function', () => {
   test('Require both sizes empty to call getImage and catch error', () => {
     process.env.URL = 'localhost:3000';
     process.env.BUCKET = 'my-bucket-here';
-    process.env.API_URL = 'localhost:3001/v1';
     const event = emptySize;
     const context = {};
     const err = new Error();
@@ -175,7 +150,6 @@ describe('Service aws testing and mocking library function', () => {
   test('Require only size width and catch error', () => {
     process.env.URL = 'localhost:3000';
     process.env.BUCKET = 'my-bucket-here';
-    process.env.API_URL = 'localhost:3001/v1';
     const event = eventSizeWidth;
     const context = {};
     const err = new Error();
@@ -190,7 +164,6 @@ describe('Service aws testing and mocking library function', () => {
   test('Require both sizes and catch error', () => {
     process.env.URL = 'localhost:3000';
     process.env.BUCKET = 'my-bucket-here';
-    process.env.API_URL = 'localhost:3001/v1';
     const event = eventStub;
     const context = {};
     const err = new Error();
