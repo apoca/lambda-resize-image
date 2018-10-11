@@ -133,6 +133,8 @@ or with you own Custom Domain Names:
 
 `https://api.yourdomain.com/<KEY_S3_IMAGE_HERE>?width=<WIDTH>&height=<HEIGHT>`
 
+![Example usage of lambda resize image](https://s3-eu-west-1.amazonaws.com/lambda-resize-image/example-usage-lambda-resize-image.png)
+
 ## Environment variables
 
 - URL - AWS URL S3 bucket or your CDN url to the BUCKET. (required)
@@ -155,8 +157,6 @@ Note that you will need to be into the root repository. The last command (4.) wi
 ### Example request
 
 `http://localhost:3000<YOUR_KEYNAME_TO_IMAGE>?width=<WIDTH>&height=<HEIGHT>`
-
-![Example usage of lambda resize image](https://s3-eu-west-1.amazonaws.com/lambda-resize-image/example-usage-lambda-resize-image.png)
 
 #### Configuration Parameters
 
