@@ -7,6 +7,7 @@ const ALLOWED_DIMENSIONS = {
 
 export function imageprocess(event, context, callback) {
   const queryParameters = event.queryStringParameters || {};
+  const imageKey = event.pathParameters.key;
 
   if (!process.env.BUCKET || !process.env.URL) {
     return callback(null, {
@@ -33,8 +34,6 @@ export function imageprocess(event, context, callback) {
       body: 'Error: Image size not permited.'
     });
   }
-
-  const imageKey = getImageKey(event.path);
 
   if (!size.width && !size.height) {
     return getImage(imageKey).catch(err =>

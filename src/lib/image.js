@@ -5,7 +5,9 @@ import { resizeCallback, generateS3Key } from './utils';
 
 export function getImage(key) {
   return new Promise((resolve, reject) => {
-    const S3 = new _S3({ signatureVersion: 'v4' });
+    const S3 = new _S3({
+      signatureVersion: 'v4'
+    });
     S3.getObject(
       {
         Bucket: process.env.BUCKET,
@@ -16,7 +18,9 @@ export function getImage(key) {
 
         resolve({
           statusCode: 301,
-          headers: { Location: `${process.env.URL}/${key}` }
+          headers: {
+            Location: `${process.env.URL}/${key}`
+          }
         });
       }
     );
@@ -25,7 +29,9 @@ export function getImage(key) {
 
 export function checkKeyExists(key, size) {
   return new Promise((resolve, reject) => {
-    const S3 = new _S3({ signatureVersion: 'v4' });
+    const S3 = new _S3({
+      signatureVersion: 'v4'
+    });
     S3.headObject(
       {
         Bucket: process.env.BUCKET,
@@ -50,7 +56,9 @@ export function checkKeyExists(key, size) {
 
 export function resizeImage(key, size) {
   return new Promise((resolve, reject) => {
-    const S3 = new _S3({ signatureVersion: 'v4' });
+    const S3 = new _S3({
+      signatureVersion: 'v4'
+    });
 
     S3.getObject(
       {

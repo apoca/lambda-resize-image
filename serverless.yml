@@ -1,5 +1,5 @@
 # serverless.yml
-service: resizeS3Image
+service: resize
 
 plugins:
   - serverless-webpack
@@ -30,16 +30,18 @@ package:
 functions:
   handler:
     handler: src/handler.imageprocess
+    name: resizes3image
+    memorySize: ${self:custom.dev.MEMORY_SIZE}
+    timeout: ${self:custom.dev.TIMEOUT}
+    reservedConcurrency: ${self:custom.dev.TIMEOUT}
     events:
       - http:
-          path: /{any+}
+          path: /{key+}
           method: get
-          cors: true
-          request:
-            parameters:
-              paths:
-                width: true
-                height: false
+          integration: lambda-proxy
+          parameters:
+            paths:
+              key: true
     environment:
       BUCKET: ${self:custom.dev.BUCKET}
       URL: ${self:custom.dev.URL}

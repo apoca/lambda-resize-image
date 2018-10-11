@@ -7,7 +7,9 @@ export function resizeCallback(error, contentType, newKey, tmpImageName) {
     if (error) {
       reject(error);
     } else {
-      const S3 = new _S3({ signatureVersion: 'v4' });
+      const S3 = new _S3({
+        signatureVersion: 'v4'
+      });
 
       S3.putObject(
         {
@@ -23,7 +25,9 @@ export function resizeCallback(error, contentType, newKey, tmpImageName) {
 
           resolve({
             statusCode: 301,
-            headers: { Location: `${process.env.URL}/${newKey}` }
+            headers: {
+              Location: `${process.env.URL}/${newKey}`
+            }
           });
         }
       );
