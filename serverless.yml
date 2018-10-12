@@ -1,5 +1,5 @@
 # serverless.yml
-service: resize
+service: resizeS3image
 
 plugins:
   - serverless-webpack
@@ -19,7 +19,8 @@ provider:
   iamRoleStatements:
     - Effect: Allow
       Action:
-        - s3:*
+        - 's3:PutObject'
+        - 's3:ListBucket'
       Resource: '*'
 
 # you can add packaging information here
@@ -30,7 +31,7 @@ package:
 functions:
   handler:
     handler: src/handler.imageprocess
-    name: resizes3image
+    name: resizeimage
     memorySize: ${self:custom.dev.MEMORY_SIZE}
     timeout: ${self:custom.dev.TIMEOUT}
     reservedConcurrency: ${self:custom.dev.TIMEOUT}
@@ -39,6 +40,19 @@ functions:
           path: /{key+}
           method: get
           integration: lambda-proxy
+          cors:
+            origins:
+              - ${self:custom.dev.ORIGIN}
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - Access-Control-Allow-Headers
+              - Access-Control-Allow-Origin
+            allowCredentials: true
           parameters:
             paths:
               key: true

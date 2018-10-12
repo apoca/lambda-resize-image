@@ -65,9 +65,3 @@ export function generateS3Key(key, size) {
 
   return `${oldKey}/${filename}`;
 }
-
-export function getImageKey(path) {
-  const imageKey = path.replace('/', '');
-
-  return imageKey;
-}

@@ -3,7 +3,6 @@
  */
 
 import { checkKeyExists, getImage } from './lib/image';
-import { getImageKey } from './lib/utils';
 const ALLOWED_DIMENSIONS = {
   width: 1800,
   height: 1800

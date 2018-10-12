@@ -11,7 +11,7 @@
   },
   "path": "/brands/580ded66-0364-40f3-8f37-5451c0a8010a.jpg",
   "pathParameters": {
-    "any": "brands%2F580ded66-0364-40f3-8f37-5451c0a8010a.jpg"
+    "key": "brands%2F580ded66-0364-40f3-8f37-5451c0a8010a.jpg"
   },
   "requestContext": {
     "accountId": "offlineContext_accountId",

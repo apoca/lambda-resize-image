@@ -87,7 +87,9 @@ describe('Test resizeCallback success', () => {
       data => {
         expect(data).toMatchObject({
           statusCode: 301,
-          headers: { Location: newPathKey }
+          headers: {
+            Location: newPathKey
+          }
         });
       }
     );
@@ -135,13 +137,5 @@ describe('Test generateS3Key', () => {
     expect(generateS3Key('xpto/name_here.jpg', size)).toEqual(
       'xpto/name_here.jpg'
     );
-  });
-});
-
-describe('Test getImageKey', () => {
-  test('Should return ImageKey', () => {
-    expect(
-      getImageKey('/causes/564f3763-5ce0-40f7-8bf2-105000000000.png')
-    ).toEqual('causes/564f3763-5ce0-40f7-8bf2-105000000000.png');
   });
 });
