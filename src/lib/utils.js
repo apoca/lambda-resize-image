@@ -29,7 +29,9 @@ export function resizeCallback(error, contentType, newKey, tmpImageName) {
         err => {
           if (err) return reject(err);
 
-          unlink(tmpImageName);
+          unlink(tmpImageName, err => {
+            if (err) throw err;
+          });
 
           resolve({
             statusCode: 301,
