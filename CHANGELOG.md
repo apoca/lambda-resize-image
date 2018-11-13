@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.1] - 2018-10-13
+
+    ### Changed
+
+    - Fixed 12 vulnerabilities
+
 ## [1.3.0] - 2018-09-12
 
     ### Added
@@ -53,7 +59,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
     - Starting develop unit test with jest
 
-[unreleased]: https://github.com/apoca/lambda-resize-image/compare/v1.3.0...HEAD
+[unreleased]: https://github.com/apoca/lambda-resize-image/compare/v1.3.1...HEAD
+[1.3.1]: https://github.com/apoca/lambda-resize-image/compare/v1.3.0..v1.3.1
 [1.3.0]: https://github.com/apoca/lambda-resize-image/compare/v1.2.2..v1.3.0
 [1.2.2]: https://github.com/apoca/lambda-resize-image/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/apoca/lambda-resize-image/compare/v1.2.0...v1.2.1
