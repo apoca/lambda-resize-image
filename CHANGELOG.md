@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.3] - 2019-04-24
+
+    ### Changed
+
+    - Fixed 2 vulnerabilities
+    - Updated puObject IAM AWS to putObjectAcl
+
 ## [1.3.2] - 2018-10-13
 
      ### Changed
