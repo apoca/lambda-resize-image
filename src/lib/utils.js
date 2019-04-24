@@ -21,6 +21,7 @@ export function resizeCallback(error, contentType, newKey, tmpImageName) {
 
       S3.putObject(
         {
+          ACL: 'public-read',
           Bucket: process.env.BUCKET,
           Body: readFileSync(tmpImageName),
           ContentType: contentType,
