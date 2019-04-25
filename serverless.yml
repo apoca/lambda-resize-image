@@ -11,16 +11,16 @@ provider:
   name: aws
   runtime: nodejs8.10
   region: eu-west-1
-  stage: ${self:custom.dev.STAGE}
+  stage: ${opt:stage,'dev'}
   timeout: 5 # optional, in seconds, default is 6
   environment:
-    BUCKET: ${self:custom.dev.BUCKET}
-    URL: ${self:custom.dev.URL}
+    BUCKET: ${self:custom.${self:provider.stage}.BUCKET}
+    URL: ${self:custom.${self:provider.stage}.URL}
   iamRoleStatements:
     - Effect: Allow
       Action:
-        - 's3:GetObject'
         - 's3:PutObjectAcl'
+        - 's3:PutObject'
         - 's3:ListBucket'
       Resource: '*'
 
@@ -32,10 +32,10 @@ package:
 functions:
   handler:
     handler: src/handler.imageprocess
-    name: resizeimage
-    memorySize: ${self:custom.dev.MEMORY_SIZE}
-    timeout: ${self:custom.dev.TIMEOUT}
-    reservedConcurrency: ${self:custom.dev.TIMEOUT}
+    name: resizeimage-${self:provider.stage}
+    memorySize: ${self:custom.${self:provider.stage}.MEMORY_SIZE}
+    timeout: ${self:custom.${self:provider.stage}.TIMEOUT}
+    reservedConcurrency: ${self:custom.${self:provider.stage}.TIMEOUT}
     events:
       - http:
           path: /{key+}
@@ -43,7 +43,7 @@ functions:
           integration: lambda-proxy
           cors:
             origins:
-              - ${self:custom.dev.ORIGIN}
+              - ${self:custom.${self:provider.stage}.ORIGIN}
             headers:
               - Content-Type
               - X-Amz-Date
@@ -58,5 +58,5 @@ functions:
             paths:
               key: true
     environment:
-      BUCKET: ${self:custom.dev.BUCKET}
-      URL: ${self:custom.dev.URL}
+      BUCKET: ${self:custom.${self:provider.stage}.BUCKET}
+      URL: ${self:custom.${self:provider.stage}.URL}

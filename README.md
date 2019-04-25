@@ -82,7 +82,7 @@ You can also check if you have everything installed in the correct way:
 
 To deploy from your environment to Amazon AWS, you must:
 
-`$ serverless deploy`
+`$ serverless deploy --stage dev` or `$ serverless deploy --stage prod` for production configurations.
 
 Then, serverless will package, validate and upload your stack to Amazon AWS. It will probably look like this:
 
@@ -160,10 +160,10 @@ Note that you will need to be into the root repository. The last command (4.) wi
 
 #### Configuration Parameters
 
-| Parameter | type    | description                                        |
+| Parameter |  type   | description                                        |
 | :-------: | :-----: | -------------------------------------------------- |
-| width     | Integer | Required. Will resize image via imagemagic resize. |
-| height    | Integer | Optional. Will resize image via imagemagic crop.   |
+|   width   | Integer | Required. Will resize image via imagemagic resize. |
+|  height   | Integer | Optional. Will resize image via imagemagic crop.   |
 
 ## Feedback
 
