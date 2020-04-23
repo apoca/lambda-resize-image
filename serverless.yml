@@ -9,7 +9,7 @@ custom: ${file(env.yml)}
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs12.x
   region: eu-west-1
   stage: ${opt:stage,'dev'}
   timeout: 5 # optional, in seconds, default is 6

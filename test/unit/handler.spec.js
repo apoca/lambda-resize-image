@@ -22,11 +22,11 @@ describe('Service aws to Lambda Resize image', () => {
   test('Require environment variable BUCKET', () => {
     process.env.URL = 'localhost:3000';
     const event = {
-      path: 'image.png'
+      path: 'image.png',
     };
     const context = {};
 
-    handler(event, context).then(data => {
+    handler(event, context).then((data) => {
       expect(data.statusCode).toBe(404);
       expect(data.body).toBe(
         'Error: Set environment variables BUCKET and URL.'
@@ -37,11 +37,11 @@ describe('Service aws to Lambda Resize image', () => {
   test('Require environment variable URL', () => {
     process.env.BUCKET = 'my-bucket-here';
     const event = {
-      path: 'image.png'
+      path: 'image.png',
     };
     const context = {};
 
-    handler(event, context).then(data => {
+    handler(event, context).then((data) => {
       expect(data.statusCode).toBe(404);
       expect(data.body).toBe(
         'Error: Set environment variables BUCKET and URL.'
@@ -56,7 +56,7 @@ describe('Service aws to Lambda Resize image', () => {
     const context = {};
 
     const result = handler(event, context);
-    result.then(data => expect(data).toMatchSnapshot());
+    result.then((data) => expect(data).toMatchSnapshot());
   });
 
   test('Empty size image', () => {
@@ -66,7 +66,7 @@ describe('Service aws to Lambda Resize image', () => {
     const context = {};
 
     const result = handler(event, context);
-    result.then(data => expect(data).toMatchSnapshot());
+    result.then((data) => expect(data).toMatchSnapshot());
   });
 
   test('Require a request with both sizes', () => {
@@ -76,7 +76,7 @@ describe('Service aws to Lambda Resize image', () => {
     const context = {};
 
     const result = handler(event, context);
-    result.then(data => expect(data).toMatchSnapshot());
+    result.then((data) => expect(data).toMatchSnapshot());
   });
 
   test('Require size with allowed dimensions', () => {
@@ -85,7 +85,7 @@ describe('Service aws to Lambda Resize image', () => {
     const event = maxSizeEvent;
     const context = {};
 
-    handler(event, context).then(data => {
+    handler(event, context).then((data) => {
       expect(data.statusCode).toBe(403);
       expect(data.body).toBe('Error: Image size not permited.');
     });
@@ -97,7 +97,7 @@ describe('test getImageKey', () => {
     process.env.URL = 'localhost:3000';
     process.env.BUCKET = 'my-bucket-here';
     const event = {
-      path: 'localhost:3001/v1/image.png'
+      path: 'localhost:3001/v1/image.png',
     };
     const context = {};
     utils.getImageKey = jest.fn();
@@ -119,7 +119,7 @@ describe('Service aws testing and mocking library function', () => {
 
     AWSMock.mock('S3', 'putObject', (_params, callback) => {
       const data = {
-        Location: `${process.env.URL}/images/default.txt`
+        Location: `${process.env.URL}/images/default.txt`,
       };
 
       callback(null, data);

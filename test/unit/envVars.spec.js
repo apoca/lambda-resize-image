@@ -13,7 +13,7 @@ describe('Utility library envVarsChecker', () => {
 
   test('Asks for a missing BUCKET environment variables', () => {
     const input = {
-      URL: 'https://localhost:3000'
+      URL: 'https://localhost:3000',
     };
     const result = checker(input);
     expect(result).toEqual(['BUCKET']);
@@ -21,7 +21,7 @@ describe('Utility library envVarsChecker', () => {
 
   test('Asks for a missing URL environment variables', () => {
     const input = {
-      BUCKET: 'my-bucket-here'
+      BUCKET: 'my-bucket-here',
     };
     const result = checker(input);
     expect(result).toEqual(['URL']);

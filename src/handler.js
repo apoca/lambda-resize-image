@@ -5,7 +5,7 @@
 import { checkKeyExists, getImage } from './lib/image';
 const ALLOWED_DIMENSIONS = {
   width: 1800,
-  height: 1800
+  height: 1800,
 };
 
 /**
@@ -14,12 +14,12 @@ const ALLOWED_DIMENSIONS = {
 
 export function imageprocess(event, context, callback) {
   const queryParameters = event.queryStringParameters || {};
-  const imageKey = event.pathParameters.key;
+  const imageKey = decodeURIComponent(event.pathParameters.key);
 
   if (!process.env.BUCKET || !process.env.URL) {
     return callback(null, {
       statusCode: 404,
-      body: 'Error: Set environment variables BUCKET and URL.'
+      body: 'Error: Set environment variables BUCKET and URL.',
     });
   }
 
@@ -29,7 +29,7 @@ export function imageprocess(event, context, callback) {
     height:
       queryParameters.height === 'AUTO'
         ? null
-        : parseInt(queryParameters.height)
+        : parseInt(queryParameters.height),
   };
 
   if (
@@ -38,22 +38,22 @@ export function imageprocess(event, context, callback) {
   ) {
     return callback(null, {
       statusCode: 403,
-      body: 'Error: Image size not permited.'
+      body: 'Error: Image size not permited.',
     });
   }
 
   if (!size.width && !size.height) {
-    return getImage(imageKey).catch(err =>
+    return getImage(imageKey).catch((err) =>
       callback(null, {
         statusCode: err.statusCode || 404,
-        body: JSON.stringify(err)
+        body: JSON.stringify(err),
       })
     );
   } else {
-    return checkKeyExists(imageKey, size).catch(err =>
+    return checkKeyExists(imageKey, size).catch((err) =>
       callback(null, {
         statusCode: err.statusCode || 404,
-        body: JSON.stringify(err)
+        body: JSON.stringify(err),
       })
     );
   }

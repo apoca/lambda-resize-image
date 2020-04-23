@@ -9,13 +9,13 @@ imageprocess(
   {
     queryStringParameters: {
       width: 330,
-      height: null
+      height: null,
     },
     path:
-      'http://localhost:3000/brands/580ded66-0364-40f3-8f37-5451c0a8010a.jpg'
+      'http://localhost:3000/brands/580ded66-0364-40f3-8f37-5451c0a8010a.jpg',
   }, //event
   {}, //content
-  function(data) {
+  function (data) {
     //callback function with two arguments
     console.log(data);
   }
