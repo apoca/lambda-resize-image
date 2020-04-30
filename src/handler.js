@@ -5,7 +5,7 @@
 import { S3 as _S3 } from 'aws-sdk';
 import { generateS3Key } from './lib/utils';
 import { isNullOrUndefined } from 'util';
-const sharp = require('sharp');
+import sharp from 'sharp';
 
 const S3 = new _S3({
   signatureVersion: 'v4',
@@ -60,13 +60,15 @@ export function imageprocess(event, context, callback) {
         .then((data) => sharp(data.Body).jpeg({ quality: 70 }).toBuffer())
         .then((buffer) => {
           // generate a binary response with resized image
-          return callback(null, {
+          const response = {
             statusCode: 200,
+            headers: {
+              'Content-Type': 'image/jpeg',
+            },
             body: buffer.toString('base64'),
-            bodyEncoding: 'base64',
             isBase64Encoded: true,
-            headers: { 'Content-Type': 'image/jpeg' },
-          });
+          };
+          return callback(null, response);
         })
         .catch((err) =>
           callback(null, {
@@ -103,13 +105,15 @@ export function imageprocess(event, context, callback) {
               });
             });
           // generate a binary response with resized image
-          return callback(null, {
+          const response = {
             statusCode: 200,
+            headers: {
+              'Content-Type': 'image/jpeg',
+            },
             body: buffer.toString('base64'),
-            bodyEncoding: 'base64',
             isBase64Encoded: true,
-            headers: { 'Content-Type': 'image/jpeg' },
-          });
+          };
+          return callback(null, response);
         })
         .catch((err) =>
           callback(null, {

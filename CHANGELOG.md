@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2020-04-30
+
+    ### Changed
+
+    - Fixed a lot of vulnerabilities
+    - Updated handler.js to return binary images not redirects
+    - Updated webpack.config.js to better "bundle" the package to Lambda AWS amazon
+    - Improved serverless.yml
+
 ## [1.3.3] - 2019-04-24
 
     ### Changed

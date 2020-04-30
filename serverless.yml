@@ -5,7 +5,30 @@ plugins:
   - serverless-webpack
   - serverless-offline
 
-custom: ${file(env.yml)}
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+    packager: 'npm'
+
+package:
+  include:
+    - src/**
+    - node_modules/**
+  exclude:
+    - .git/**
+    - .env
+    - env.yml
+    - docker-compose.yml
+    - Dockerfile
+    - LICENSE
+    - CHANGELOG.md
+    - CODE_OF_CONDUCT.md
+    - README.md
+    - package.json
+    - package-lock.json
+    - tests/**
+    - yarn.lock
 
 provider:
   name: aws
@@ -14,8 +37,8 @@ provider:
   stage: ${opt:stage,'dev'}
   timeout: 5 # optional, in seconds, default is 6
   environment:
-    BUCKET: ${self:custom.${self:provider.stage}.BUCKET}
-    URL: ${self:custom.${self:provider.stage}.URL}
+    BUCKET: ${file(env.yml):${self:provider.stage}.BUCKET}
+    URL: ${file(env.yml):${self:provider.stage}.URL}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -24,18 +47,13 @@ provider:
         - 's3:ListBucket'
       Resource: '*'
 
-# you can add packaging information here
-package:
-  exclude:
-    - ./**
-
 functions:
   handler:
     handler: src/handler.imageprocess
     name: resizeimage-${self:provider.stage}
-    memorySize: ${self:custom.${self:provider.stage}.MEMORY_SIZE}
-    timeout: ${self:custom.${self:provider.stage}.TIMEOUT}
-    reservedConcurrency: ${self:custom.${self:provider.stage}.TIMEOUT}
+    memorySize: ${file(env.yml):${self:provider.stage}.MEMORY_SIZE}
+    timeout: ${file(env.yml):${self:provider.stage}.TIMEOUT}
+    reservedConcurrency: ${file(env.yml):${self:provider.stage}.TIMEOUT}
     events:
       - http:
           path: /{key+}
@@ -43,7 +61,7 @@ functions:
           integration: lambda-proxy
           cors:
             origins:
-              - ${self:custom.${self:provider.stage}.ORIGIN}
+              - ${file(env.yml):${self:provider.stage}.ORIGIN}
             headers:
               - Content-Type
               - X-Amz-Date
@@ -58,5 +76,5 @@ functions:
             paths:
               key: true
     environment:
-      BUCKET: ${self:custom.${self:provider.stage}.BUCKET}
-      URL: ${self:custom.${self:provider.stage}.URL}
+      BUCKET: ${file(env.yml):${self:provider.stage}.BUCKET}
+      URL: ${file(env.yml):${self:provider.stage}.URL}

@@ -1,25 +1,29 @@
-const path = require('path');
 const slsw = require('serverless-webpack');
+const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   // Specify the entry point for our app.
   entry: slsw.lib.entries,
-  // Specify the output file containing our bundled code
-  output: {
-    libraryTarget: 'commonjs',
-    path: path.resolve(__dirname, '.webpack'),
-    filename: '[name].js',
-  },
   target: 'node',
-  externals: [nodeExternals()],
+  // Generate sourcemaps for proper error messages
+  devtool: 'source-map',
+  externals: [
+    nodeExternals({
+      modulesFromFile: true,
+    }),
+  ],
+  mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
+  optimization: {
+    // We do not want to minimize our code.
+    minimize: false,
+  },
+  performance: {
+    // Turn off size warnings for entry points
+    hints: false,
+  },
   module: {
-    /**
-     * Tell webpack how to load 'json' files.
-     * When webpack encounters a 'require()' statement
-     * where a 'json' file is being imported, it will use
-     * the json-loader.
-     */
+    // Run babel on all .js files and skip those in node_modules
     rules: [
       {
         test: /\.js$/,
@@ -27,11 +31,12 @@ module.exports = {
         include: __dirname,
         exclude: /node_modules/,
       },
-      {
-        test: /\.json$/,
-        exclude: /node_modules/,
-        loaders: ['json-loader'],
-      },
     ],
+  },
+  // Specify the output file containing our bundled code
+  output: {
+    libraryTarget: 'commonjs',
+    path: path.resolve(__dirname, '.webpack'),
+    filename: '[name].js',
   },
 };
