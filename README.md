@@ -35,7 +35,21 @@ An AWS Lambda Function to resize images automatically with API Gateway and S3 fo
 
 ## Requirements
 
-- Node.js - AWS Lambda supports versions of **8.10** or above.
+- Node.js - AWS Lambda supports versions of **10.20.1** or above (Recommended: **12.X**).
+
+## New version 2.0
+
+We've changed our approache to remove redirects from our responses. Then, we are returning a binary file base 64 image file.
+
+### Steps to version 2.0
+
+You must have AWS CLI installed to execute a command from your console:
+
+`aws apigateway update-integration-response --rest-api-id <API_ID> --resource-id <RESOURCE_ID> --http-method GET  --status-code 200  --patch-operations '[{"op" : "replace", "path" : "/contentHandling", "value" : "CONVERT_TO_BINARY"}]'`
+
+In API GW -> Settings -> Binary Media Types and add:
+
+`*/*`
 
 ## What is it?
 
@@ -137,7 +151,7 @@ or with you own Custom Domain Names:
 
 ## Environment variables
 
-- URL - AWS URL S3 bucket or your CDN url to the BUCKET. (required)
+- URL - AWS URL S3 bucket or your CDN url to the BUCKET. (not required in version 2.0)
 - BUCKET - AWS S3 bucket. (required)
 
 ### Environment variables for serverless

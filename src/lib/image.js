@@ -14,22 +14,22 @@ import { resizeCallback, generateS3Key } from './utils';
 export function getImage(key) {
   return new Promise((resolve, reject) => {
     const S3 = new _S3({
-      signatureVersion: 'v4'
+      signatureVersion: 'v4',
     });
 
     S3.getObject(
       {
         Bucket: process.env.BUCKET,
-        Key: key
+        Key: key,
       },
-      err => {
+      (err) => {
         if (err) return reject(err);
 
         resolve({
           statusCode: 301,
           headers: {
-            Location: `${process.env.URL}/${key}`
-          }
+            Location: `${process.env.URL}/${key}`,
+          },
         });
       }
     );
@@ -43,25 +43,23 @@ export function getImage(key) {
 export function checkKeyExists(key, size) {
   return new Promise((resolve, reject) => {
     const S3 = new _S3({
-      signatureVersion: 'v4'
+      signatureVersion: 'v4',
     });
 
     S3.headObject(
       {
         Bucket: process.env.BUCKET,
-        Key: generateS3Key(key, size)
+        Key: generateS3Key(key, size),
       },
-      err => {
+      (err) => {
         if (err && err.code === 'NotFound')
-          return resizeImage(key, size)
-            .then(resolve)
-            .catch(reject);
+          return resizeImage(key, size).then(resolve).catch(reject);
 
         resolve({
           statusCode: 301,
           headers: {
-            Location: `${process.env.URL}/${generateS3Key(key, size)}`
-          }
+            Location: `${process.env.URL}/${generateS3Key(key, size)}`,
+          },
         });
       }
     );
@@ -75,21 +73,19 @@ export function checkKeyExists(key, size) {
 export function resizeImage(key, size) {
   return new Promise((resolve, reject) => {
     const S3 = new _S3({
-      signatureVersion: 'v4'
+      signatureVersion: 'v4',
     });
 
     S3.getObject(
       {
         Bucket: process.env.BUCKET,
-        Key: key
+        Key: key,
       },
       (err, data) => {
         if (err) return reject(err);
 
         if (size.width && size.height) {
-          const tmpImageName = `${tmpDir}/resized.${process.env.BUCKET}.${
-            size.width
-          }.${size.height}`;
+          const tmpImageName = `${tmpDir}/resized.${process.env.BUCKET}.${size.width}.${size.height}`;
 
           crop(
             {
@@ -98,9 +94,9 @@ export function resizeImage(key, size) {
               srcData: data.Body,
               dstPath: tmpImageName,
               quality: 1,
-              gravity: 'Center'
+              gravity: 'Center',
             },
-            err => {
+            (err) => {
               if (err) return reject(err);
 
               resolve(
@@ -114,17 +110,15 @@ export function resizeImage(key, size) {
             }
           );
         } else if (size.width) {
-          const tmpImageName = `${tmpDir}/resized.${process.env.BUCKET}.${
-            size.width
-          }`;
+          const tmpImageName = `${tmpDir}/resized.${process.env.BUCKET}.${size.width}`;
 
           resize(
             {
               width: size.width,
               srcData: data.Body,
-              dstPath: tmpImageName
+              dstPath: tmpImageName,
             },
-            err => {
+            (err) => {
               if (err) return reject(err);
 
               resolve(
@@ -141,8 +135,8 @@ export function resizeImage(key, size) {
           resolve({
             statusCode: 301,
             headers: {
-              Location: `${process.env.URL}/${generateS3Key(key, size)}`
-            }
+              Location: `${process.env.URL}/${generateS3Key(key, size)}`,
+            },
           });
         }
       }

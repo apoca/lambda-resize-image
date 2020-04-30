@@ -1,8 +1,8 @@
-export default env => {
+export default (env) => {
   const required = ['BUCKET', 'URL'];
   const missing = [];
 
-  required.forEach(reqVar => {
+  required.forEach((reqVar) => {
     if (!env[reqVar]) {
       missing.push(reqVar);
     }

@@ -4,7 +4,7 @@ import path from 'path';
 import {
   generateS3Key,
   resizeCallback,
-  getImageKey
+  getImageKey,
 } from '../../../src/lib/utils';
 
 describe('Test resizeCallback error', () => {
@@ -32,13 +32,13 @@ describe('Test resizeCallback error', () => {
   test('Sending a error param, must return an error', () => {
     expect.assertions(1);
     const error = {
-      error: 'Something went Wrong!'
+      error: 'Something went Wrong!',
     };
 
     return expect(
       resizeCallback(error, 'image/jpg', newPathKey, newPathKey)
     ).rejects.toEqual({
-      error: 'Something went Wrong!'
+      error: 'Something went Wrong!',
     });
   });
 
@@ -69,7 +69,7 @@ describe('Test resizeCallback success', () => {
     );
     AWSMock.mock('S3', 'putObject', (params, callback) => {
       const data = {
-        Location: newPathKey
+        Location: newPathKey,
       };
 
       callback(null, data);
@@ -84,12 +84,12 @@ describe('Test resizeCallback success', () => {
     const error = null;
 
     return resizeCallback(error, 'image/jpg', newKey, tmpImageName).then(
-      data => {
+      (data) => {
         expect(data).toMatchObject({
           statusCode: 301,
           headers: {
-            Location: newPathKey
-          }
+            Location: newPathKey,
+          },
         });
       }
     );
@@ -100,7 +100,7 @@ describe('Test generateS3Key', () => {
   test('Require both sizes width and height', () => {
     const size = {
       width: 100,
-      height: 100
+      height: 100,
     };
 
     expect(generateS3Key('xpto/name_here.jpg', size)).toEqual(
@@ -111,7 +111,7 @@ describe('Test generateS3Key', () => {
   test('Require only size width', () => {
     const size = {
       width: 100,
-      height: null
+      height: null,
     };
 
     expect(generateS3Key('xpto/name_here.jpg', size)).toEqual(
@@ -122,7 +122,7 @@ describe('Test generateS3Key', () => {
   test('Without basename, must return a key only', () => {
     const size = {
       width: null,
-      height: null
+      height: null,
     };
 
     expect(generateS3Key('name_here.jpg', size)).toEqual('name_here.jpg');
@@ -131,7 +131,7 @@ describe('Test generateS3Key', () => {
   test('Both sizes empty', () => {
     const size = {
       width: null,
-      height: null
+      height: null,
     };
 
     expect(generateS3Key('xpto/name_here.jpg', size)).toEqual(

@@ -16,7 +16,7 @@ export function resizeCallback(error, contentType, newKey, tmpImageName) {
       reject(error);
     } else {
       const S3 = new _S3({
-        signatureVersion: 'v4'
+        signatureVersion: 'v4',
       });
 
       S3.putObject(
@@ -25,20 +25,20 @@ export function resizeCallback(error, contentType, newKey, tmpImageName) {
           Bucket: process.env.BUCKET,
           Body: readFileSync(tmpImageName),
           ContentType: contentType,
-          Key: newKey
+          Key: newKey,
         },
-        err => {
+        (err) => {
           if (err) return reject(err);
 
-          unlink(tmpImageName, err => {
+          unlink(tmpImageName, (err) => {
             if (err) throw err;
           });
 
           resolve({
             statusCode: 301,
             headers: {
-              Location: `${process.env.URL}/${newKey}`
-            }
+              Location: `${process.env.URL}/${newKey}`,
+            },
           });
         }
       );
