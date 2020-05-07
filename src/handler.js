@@ -24,10 +24,10 @@ export function imageprocess(event, context, callback) {
   const queryParameters = event.queryStringParameters || {};
   const imageKey = decodeURIComponent(event.pathParameters.key);
 
-  if (!process.env.BUCKET || !process.env.URL) {
+  if (!process.env.BUCKET) {
     return callback(null, {
       statusCode: 404,
-      body: 'Error: Set environment variables BUCKET and URL.',
+      body: 'Error: Set environment variables BUCKET.',
     });
   }
 

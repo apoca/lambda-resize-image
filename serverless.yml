@@ -38,7 +38,6 @@ provider:
   timeout: 5 # optional, in seconds, default is 6
   environment:
     BUCKET: ${file(env.yml):${self:provider.stage}.BUCKET}
-    URL: ${file(env.yml):${self:provider.stage}.URL}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -77,4 +76,3 @@ functions:
               key: true
     environment:
       BUCKET: ${file(env.yml):${self:provider.stage}.BUCKET}
-      URL: ${file(env.yml):${self:provider.stage}.URL}
