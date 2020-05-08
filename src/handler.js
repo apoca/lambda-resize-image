@@ -66,6 +66,7 @@ export function imageprocess(event, context, callback) {
             statusCode: 200,
             headers: {
               'Content-Type': 'image/jpeg',
+              'Cache-Control': 'public, max-age=31536000',
             },
             body: buffer.toString('base64'),
             isBase64Encoded: true,
@@ -111,6 +112,7 @@ export function imageprocess(event, context, callback) {
             statusCode: 200,
             headers: {
               'Content-Type': 'image/jpeg',
+              'Cache-Control': 'public, max-age=31536000',
             },
             body: buffer.toString('base64'),
             isBase64Encoded: true,
