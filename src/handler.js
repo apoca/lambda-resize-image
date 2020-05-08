@@ -57,7 +57,9 @@ export function imageprocess(event, context, callback) {
         Key: imageKey,
       })
         .promise()
-        .then((data) => sharp(data.Body).jpeg({ quality: 70 }).toBuffer())
+        .then((data) =>
+          sharp(data.Body).jpeg({ quality: 95, progressive: true }).toBuffer()
+        )
         .then((buffer) => {
           // generate a binary response with resized image
           const response = {
@@ -85,7 +87,7 @@ export function imageprocess(event, context, callback) {
         .then((data) =>
           sharp(data.Body)
             .resize(size.width, size.height)
-            .jpeg({ quality: 70 })
+            .jpeg({ quality: 95, progressive: true })
             .toBuffer()
         )
         .then((buffer) => {
