@@ -52,7 +52,7 @@ functions:
     name: resizeimage-${self:provider.stage}
     memorySize: ${file(env.yml):${self:provider.stage}.MEMORY_SIZE}
     timeout: ${file(env.yml):${self:provider.stage}.TIMEOUT}
-    reservedConcurrency: ${file(env.yml):${self:provider.stage}.TIMEOUT}
+    reservedConcurrency: ${file(env.yml):${self:provider.stage}.RESERVED_CONCURRENCY}
     events:
       - http:
           path: /{key+}
